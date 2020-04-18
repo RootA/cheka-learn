@@ -1,0 +1,14 @@
+<html>
+    <head>Adding a project</head>
+    <body>
+        {% load wysiwyg %}
+
+        {% block extrahead %}
+            {% wysiwyg_setup %}
+        {% endblock %}
+
+        {% block content %}
+            {% wysiwyg_editor "id_description" %}
+        {% endblock %}
+    </body>
+</html>

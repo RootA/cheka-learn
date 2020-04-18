@@ -33,7 +33,8 @@ SECRET_KEY = 'j4a-h!6_sol^7qhf*-4rad!&b^mdo_mzeox8^3xs+(dkrzct(r'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+APP_NAME = 'Cheka Tv Edu'
+DEFAULT_EMAIL = 'edu@chekagroup.co.jp'
 
 # Application definition
 
@@ -44,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'application',
+    'django_wysiwyg'
 ]
-
+DJANGO_WYSIWYG_FLAVOR = "ckeditor"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

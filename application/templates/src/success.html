@@ -1,0 +1,38 @@
+{% extends 'src/base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content %}
+        <!-- ======= Features Section ======= -->
+    <section id="team" class="team">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>お支払いのお知らせ</h2>
+          <p></p>
+        </div>
+      </div>
+    </section><!-- End Features Section -->
+    <section id="details" class="details">
+      <div class="container">
+        <div class="row content">
+          <div class="col-md-4 aos-init aos-animate" data-aos="fade-right">
+            <img src="/{{ project.thumbnail.url }}" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-8 pt-4 aos-init aos-animate" data-aos="fade-up">
+            <p class="font-italic">
+              {{ project.description }} {{ project.checkout_amount  }}
+            </p>
+          </div>
+            <a href=""></a>
+        </div>
+      <hr>
+          <div class="row">
+            <div class="col-md-6 text-center">
+                <img src="{% static 'img/' %}" alt="">
+            </div>
+          </div>
+      </div>
+    </section>
+{% endblock content %}

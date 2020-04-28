@@ -115,3 +115,5 @@ Werkzeug==1.0.1
 wrapt==1.12.1
 zipp==3.1.0
 django-wysiwyg==0.8.0
+django-pesapal
+pesapal

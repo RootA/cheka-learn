@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'application',
-    'django_wysiwyg'
+    'django_wysiwyg',
 ]
 DJANGO_WYSIWYG_FLAVOR = "ckeditor"
 MIDDLEWARE = [
@@ -146,3 +146,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
 JENGA_API_KEY = env.str('JENGA_API_KEY')
 JENGA_USERNAME = env.str('JENGA_USERNAME')
 JENGA_PASSWORD = env.str('JENGA_PASSWORD')
+
+PESAPAL_CONSUMER_KEY=env.str('PESAPAL_CONSUMER_KEY')
+PESAPAL_SECRET_KEY=env.str('PESAPAL_SECRET_KEY')
+TESTING = True
+
+X_FRAME_OPTIONS = 'ALLOW-FROM https://demo.pesapal.com'

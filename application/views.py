@@ -1,8 +1,11 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
-from Cheka.settings import JENGA_USERNAME, JENGA_PASSWORD, JENGA_API_KEY
+from django.conf import settings
 from .utility_functions import *
 import requests
+import pesapal
+from .payment import postDirectOrder, queryPaymentStatus
 
 
 def index(request):
@@ -23,7 +26,18 @@ def index(request):
 def project_detail(request, project_id):
     categories = fetch_categories()
     project = fetch_single_project(project_id)
-    token = generate_token()
+    request_data = {
+        'Amount': str(int(project.price)),
+        'Description': project.name,
+        'Type': 'MERCHANT',
+        'Reference': project.ref_id,
+        'PhoneNumber': '0731966124'
+    }
+    post_params = {
+        'oauth_callback': f'https://localhost:8000/project/{project.ref_id}/success'
+    }
+    # build url to redirect user to confirm payment
+    url = postDirectOrder(post_params, request_data)
     context = {
         'categories': categories,
         'project': project,
@@ -31,14 +45,60 @@ def project_detail(request, project_id):
         'summary': f'${project.price}',
         'checkout_amount': int(project.price * 100),
         'thumbnail': project.thumbnail,
-        'payment_token': token,
-        'show-checkout': True if token else False
+        'url': url
     }
-    
-    return render(request, 'src/detail.html', context)
+
+    response = render(request, 'src/detail.html', context)
+    return response
+
+
+pesapal.consumer_key = settings.PESAPAL_CONSUMER_KEY
+pesapal.consumer_secret = settings.PESAPAL_SECRET_KEY
+pesapal.testing = settings.TESTING
+
 
 def project_checkout(request, project_id):
-    messages.info(request, "Requesting payment module")
+    project = fetch_single_project(project_id)
+    request_data = {
+        'Amount': str(int(project.price)),
+        'Description': project.name,
+        'Type': 'MERCHANT',
+        'Reference': project.ref_id,
+        'PhoneNumber': '0731966124'
+    }
+    post_params = {
+        'oauth_callback': f'https://localhost:8000/project/{project.ref_id}/success'
+    }
+    # build url to redirect user to confirm payment
+    url = postDirectOrder(post_params, request_data)
+    response = HttpResponseRedirect(url)
+    return response
+
+
+def pesapal_callback(request, ref_id):
+    print(request)
+    return 'Success'
+
+
+def check_transaction_pesapal():
+    # get order status
+    post_params = {
+        'pesapal_merchant_reference': '000',
+        'pesapal_transaction_tracking_id': '000'
+    }
+    url = queryPaymentStatus(post_params)
+    response = requests.get(url)
+    print(response.json())
+
+
+""" PesaPal Integration """
+
+
+def pesapal_ipn():
+    return 'IPN recieved'
+
+
+""" Jenga API integration """
 
 
 def payment_successful(request, project_id):
@@ -67,12 +127,16 @@ def payment_successful(request, project_id):
         }
         return render(request, 'src/failure.html', context)
 
+
+""" Jenga API integration """
+
+
 def generate_token():
     url = "https://api-test.equitybankgroup.com/v1/token"
 
-    payload = f"grant_type=password&merchantCode={JENGA_USERNAME}&password={JENGA_PASSWORD}"
+    payload = f"grant_type=password&merchantCode={settings.JENGA_USERNAME}&password={settings.JENGA_PASSWORD}"
     headers = {
-        'authorization': JENGA_API_KEY,
+        'authorization': settings.JENGA_API_KEY,
         'content-type': "application/x-www-form-urlencoded"
     }
 

@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 
+from django.urls import reverse
+
+
 def generate_uuid():
     return str(uuid.uuid4())[:8]
 
@@ -28,6 +31,9 @@ class Project(models.Model):
     thumbnail = models.ImageField(upload_to='projects')
     is_active = models.BooleanField(default=True)
     added_on = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('application:payment', kwargs={'pk': self.pk})
 
     def __str__(self):
         return f'{self.name}'

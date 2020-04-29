@@ -31,10 +31,12 @@
     </head>
     <body>
     {% include 'src/partials/header.html' %}
-    {% include 'src/partials/hero.html' %}
+    {% block hero %}
+    {% endblock %}
     <main id="main">
         {% block content %}
         {% endblock content %}
+        {% include 'src/ecom/cart_modal.html' %}
     </main>
     {% include 'src/partials/footer.html' %}
 
@@ -51,6 +53,7 @@
 
       <!-- Template Main JS File -->
       <script src="{% static '/js/main.js' %}"></script>
+      <script src="{% static '/js/cart.js' %}"></script>
 
     {% block scripts %}
     {% endblock scripts %}

@@ -41,11 +41,13 @@ def createOauthRequest(http_url, params, default_params):
     http_method = 'GET'
     token = params.pop('token', None)
 
-    base_url = 'https://www.pesapal.com/api/'
     if settings.TESTING:
         base_url = 'https://demo.pesapal.com/api/'
+    else:
+        base_url = 'https://www.pesapal.com/api/'
 
     url = base_url + http_url
+    print(url)
 
     if not settings.PESAPAL_CONSUMER_KEY:
         raise MissingKeyError('provide consumer key')
@@ -80,7 +82,7 @@ def postDirectOrder(params, request_data):
         'Email': '',
         'PhoneNumber': '',
         # optional
-        'Currency': '',
+        'Currency': 'USD',
         'FirstName': '',
         'LastName': '',
         'LineItems': [

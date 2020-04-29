@@ -1,0 +1,43 @@
+{% extends 'src/base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block hero %}
+    {% include 'src/partials/hero.html' %}
+{% endblock %}
+{% block content %}
+        <!-- ======= Features Section ======= -->
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>EC サイト</h2>
+          <p>Categories</p>
+        </div>
+      </div>
+    <!-- End Features Section -->
+    <section id="counts" class="counts" style="background-color: #ffffff">
+      <div class="container">
+        <div class="row aos-init aos-animate" data-aos="fade-left">
+            {% if categories %}
+                {% for category in categories %}
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        <div class="card card-inverse card-info flex-fill" style="max-height: 500px">
+                            <img class="card-img-top" src="/{{ category.image.url }}">
+                            <div class="card-block">
+                                <h4 class="card-title">{{ category.name }}</h4>
+                                <div class="card-text">
+                                    {{ category.description }}
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a class="btn btn-primary btn-sm" href="{% url 'category_products' category.pk %}">More</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+      </div>
+    </section>
+{% endblock content %}

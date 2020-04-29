@@ -1,0 +1,46 @@
+{% extends 'src/base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block hero %}
+    {% include 'src/partials/hero.html' %}
+{% endblock %}
+{% block content %}
+        <!-- ======= Features Section ======= -->
+    <section id="team" class="team">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Category</h2>
+          <p>{{ product.category.name }}</p>
+        </div>
+      </div>
+    </section><!-- End Features Section -->
+    <section id="details" class="details" style="background-color: #ffffff">
+      <div class="container" style="background-color: #ffffff">
+        <div class="row content" style="background-color: #ffffff">
+          <div class="col-md-5 aos-init aos-animate" data-aos="fade-right">
+            <img src="/{{ product.image.url }}" class="img-fluid" alt="">
+          </div>
+            <div class="col-md-6">
+                  <h2 style="font-weight: bold">{{ product.name }}</h2>
+            <hr>
+                <h4 style="font-weight: bold">${{ product.price  }}</h4>
+                <br>
+                {{ product.description }}
+                <br>
+                <br>
+                <form action="">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a data-name="{{ product.name }}" data-price="{{ product.price }}" class="add-to-cart btn btn-primary">Add to cart</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+      <hr>
+      </div>
+    </section>
+{% endblock content %}

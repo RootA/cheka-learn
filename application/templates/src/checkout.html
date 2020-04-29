@@ -1,0 +1,46 @@
+{% extends 'src/base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block hero %}
+    {% include 'src/partials/hero.html' %}
+{% endblock %}
+{% block content %}
+        <!-- ======= Features Section ======= -->
+    <section id="team" class="team" onload="loaderFunc()">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>お支払い</h2>
+          <p>Checkout</p>
+        </div>
+
+        <div class="row" data-aos="fade-left">
+            <div class="container">
+                <div class="row">
+                <div id="loader"></div>
+                    {% if url %}
+                        <iframe src="{{ url }}" height="500px" width="100%" allowfullscreen="true" frameborder="0"></iframe>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </section><!-- End Features Section -->
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    let myVar;
+
+    function loaderFunc() {
+      myVar = setTimeout(showPayment, 3000);
+    }
+
+    function showPayment() {
+      document.getElementById("loader").style.display = "none";
+    }
+</script>
+{% endblock scripts %}

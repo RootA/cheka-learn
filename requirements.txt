@@ -117,3 +117,4 @@ zipp==3.1.0
 django-wysiwyg==0.8.0
 django-pesapal
 pesapal
+django-oscar==2.0.4

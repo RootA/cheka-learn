@@ -3,39 +3,48 @@
 {% block title %}
     {{ title }}
 {% endblock title %}
+{% block hero %}
+    {% include 'src/partials/hero.html' %}
+{% endblock %}
 {% block content %}
         <!-- ======= Features Section ======= -->
     <section id="team" class="team">
       <div class="container">
 
         <div class="section-title" data-aos="fade-up">
-          <h2>従業</h2>
-          <p>クラス見ましょう</p>
+          <h2>Apps</h2>
+          <p>Choose where to go</p>
         </div>
-
-        <div class="row" data-aos="fade-left">
-            <div class="container">
-                <div class="row">
-                     {% if projects %}
-                    {% for project in projects %}
-                        <div class="col-lg-4 col-md-6" style="padding-top: 20px">
-                            <div class="member" data-aos="zoom-in" data-aos-delay="100">
-                              <div class="pic"><img src="{{ project.thumbnail.url }}" class="img-fluid" alt=""></div>
-                              <div class="member-info">
-                                <h4>{{ project.name }}</h4>
-                                <span>$ {{ project.price }}</span>
-                                <div class="social">
-                                    <a class="btn btn-primary float-right btn-sm"  style="margin-right: 10px" href="project/{{ project.pk }}">内容をチェック</a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                    {% endfor %}
-                {% endif %}
-                </div>
-            </div>
-        </div>
-
       </div>
-    </section><!-- End Features Section -->
+    </section>
+    <!-- End Features Section -->
+    <section id="counts" class="counts" style="background-color: #ffffff">
+      <div class="container">
+        <div class="row aos-init aos-animate" data-aos="fade-left">
+          <div class="offset-3 col-lg-3 col-md-4">
+            <div class="icon-box aos-init aos-animate" data-aos="zoom-in" data-aos-delay="50">
+              <i class="ri-store-line" style="color: #ffbb2c;"></i>
+              <h3><a href="{% url 'projects' %}">Projects</a></h3>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+            <div class="icon-box aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+              <i class="ri-bar-chart-box-line" style="color: #5578ff;"></i>
+              <h3><a href="{% url 'ec-index' %}">EC Site</a></h3>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+            <div class="icon-box aos-init aos-animate" data-aos="zoom-in" data-aos-delay="150">
+              <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
+              <h3><a href="https://www.youtube.com/channel/UC9mJzvWMhvTZmc_vIRkDflQ" target="_blank">YouTube</a></h3>
+            </div>
+          </div>
+{#          <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">#}
+{#            <div class="icon-box aos-init aos-animate" data-aos="zoom-in" data-aos-delay="200">#}
+{#              <i class="ri-paint-brush-line" style="color: #e361ff;"></i>#}
+{#              <h3><a href="{% url 'projects' %}">Business</a></h3>#}
+{#            </div>#}
+{#          </div>#}
+      </div>
+    </section>
 {% endblock content %}

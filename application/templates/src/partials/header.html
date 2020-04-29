@@ -3,12 +3,15 @@
     <div class="container d-flex align-items-center">
 
       <div class="logo mr-auto">
-        <h1 class="text-light"><a href="/"><span>ChekaTV</span></a></h1>
+        <h1 class="text-light"><a href="/"><span>Cheka Group</span></a></h1>
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="active"><a href="#header">Home</a></li>
+          <li class="{{ active }}"><a href="/">Home</a></li>
+          <li class="{{ active }}"><a href="{% url 'ec-index' %}">EC Site</a></li>
+          <li class={{ active }}""><a href="https://www.youtube.com/channel/UC9mJzvWMhvTZmc_vIRkDflQ">Youtube</a></li>
+          <li><a href="#header" class="cart" data-toggle="modal" data-target="#cart">Cart(<span class="total-count"></span>)</a></li>
         </ul>
       </nav><!-- .nav-menu -->
 

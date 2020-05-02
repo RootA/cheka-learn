@@ -73,6 +73,7 @@ class Order(models.Model):
     buyer_address = models.TextField(null=True)
     discounted = models.IntegerField(default=0)  # means no discount to be applied
     order_date = models.DateTimeField(auto_now=True)
+    transaction_id = models.CharField(max_length=254, null=True)
     is_paid = models.BooleanField(default=False)
 
     def __str__(self):
@@ -85,6 +86,11 @@ class OrderItems(models.Model):
     quantity = models.IntegerField(default=1)
     price = models.IntegerField(default=0)
     order_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-order_date']
+        verbose_name = 'Order Items'
+        verbose_name_plural = 'Order Items'
 
 
 class ProcessingStages(models.Model):

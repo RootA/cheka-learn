@@ -9,7 +9,7 @@ from .models import Category, Item, Comments, Project, ProjectSeed, ProjectComme
 from .models import singleItem
 from .utility_functions import Mail, Helpers
 
-from application.payment import postDirectOrder
+from application.payment import postDirectOrder, queryPaymentDetails
 import json
 import uuid
 
@@ -116,7 +116,7 @@ def create_order(request):
         'Email': Email,
     }
     post_params = {
-        'oauth_callback': f'https://localhost:8000/order/{order_id}/success'
+        'oauth_callback': f'http://localhost:8000/order/payment/'
     }
     # build url to redirect user to confirm payment
     url = postDirectOrder(post_params, request_data)
@@ -126,6 +126,41 @@ def create_order(request):
     }
     return render(request, 'src/checkout.html', context)
 
+def orderPesaPalPayment(request):
+    order = Order.objects.get(pk=request.get('pesapal_merchant_reference'))
+    order.transaction_id = request.get('pesapal_transaction_tracking_id')
+    order.save()
+    context = {
+        'title': 'Check Payment',
+        'transaction_id': request.get('pesapal_transaction_tracking_id'),
+        'show_success': False,
+    }
+    return render(request, 'src/confirm.html', context)
+
+def query_payment_status(request):
+    transaction_id = request.POST.get('transaction_id')
+    project_id = Order.objects.filter(transaction_id=transaction_id).first()
+    params = {
+        'pesapal_merchant_reference': project_id,
+        'pesapal_transaction_tracking_id': transaction_id
+    }
+
+    status = queryPaymentDetails(params)
+    print(status)
+    print(status.split(',')[1])
+    if status.split(',')[2] == 'COMPLETED':
+        return render(request, 'src/success.html')
+    elif status.split(',')[2] == 'PENDING':
+        context = {
+            'title': 'Check Payment',
+            'transaction_id': transaction_id,
+            'show_success': False,
+        }
+        return render(request, 'src/confirm.html', context)
+    elif status.split(',')[2] == 'FAILED':
+        return render(request, 'src/failure.html')
+    else:  # INVALID
+        return render(request, 'src/failure.html')
 
 def checkout(request):
     return HttpResponse("Viewing the checkout page")

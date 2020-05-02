@@ -1,0 +1,65 @@
+{% extends 'src/base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block hero %}
+    {% include 'src/partials/hero.html' %}
+{% endblock %}
+{% block content %}
+        <!-- ======= Features Section ======= -->
+    <section id="team" class="team" onload="loaderFunc()">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>お支払い</h2>
+          <p>Checkout</p>
+        </div>
+
+        <div class="row" data-aos="fade-left">
+            <div class="container">
+                <div class="row">
+                    <button class="center btn btn-primary query-status" onclick="checkPayment({{ transaction_id }})">CHECK PAYMENT STATUS</button>
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </section><!-- End Features Section -->
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    let myVar;
+
+    function loaderFunc() {
+      myVar = setTimeout(showPayment, 1000);
+    }
+
+    function showPayment() {
+      document.getElementById("loader").style.display = "none";
+    }
+
+    function checkPayment(transaction_id){
+        let data = {
+            'transaction_id': transaction_id
+        }
+         $.ajax({
+            url: "/ec/order/payment/check",
+            data: data,
+            headers: { "X-CSRFToken": getCookie("csrftoken") },
+            type: 'POST',
+            dataType:'json',
+            success: function (data){
+                alert("Payment was successful")
+                shoppingCart.removeItemFromCartAll()
+            },
+            error: function (error) {
+              alert(error)
+              console.error(error)
+            }
+        })
+    }
+
+</script>
+{% endblock scripts %}

@@ -18,11 +18,11 @@ class ItemsAdmin(admin.ModelAdmin):
 
 class OrdersAdmin(admin.ModelAdmin):
     list_display = ('buyer_name', 'buyer_email', 'buyer_phone_address', 'buyer_address',
-                    'discounted', 'is_paid')
+                    'discounted', 'is_paid', 'order_date')
     list_filter = ['is_paid', 'buyer_phone_address', 'discounted']
 
 class OrderItemsAdmin(admin.ModelAdmin):
-    list_display = ('order', 'item', 'quantity', 'price')
+    list_display = ('order', 'item', 'quantity', 'price', 'order_date')
     list_filter = ['order', 'item']
 
 class ImagesAdmin(admin.ModelAdmin):

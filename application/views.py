@@ -95,17 +95,16 @@ def pesapal_callback(request):
 
 def query_payment_status(request):
     transaction_id = request.POST.get('transaction_id')
-    project_id = Transaction.objects.filter(transaction_id=transaction_id).first()
+    transaction = Transaction.objects.filter(transaction_id=transaction_id).first()
     params = {
-        'pesapal_merchant_reference': project_id,
+        'pesapal_merchant_reference': transaction.project.ref_id,
         'pesapal_transaction_tracking_id': transaction_id
     }
 
-    # status = queryPaymentDetails(params)
-    status = '195035be-56bb-48ba-8439-7e12196cb87e,MPESA,PENDING,12345'
-    print(status)
-    print(status.split(',')[1])
+    status = queryPaymentDetails(params)
     if status.split(',')[2] == 'COMPLETED':
+        transaction.is_successful = True
+        transaction.save()
         return render(request, 'src/success.html')
     elif status.split(',')[2] == 'PENDING':
         context = {
@@ -115,8 +114,12 @@ def query_payment_status(request):
         }
         return render(request, 'src/check_transaction.html', context)
     elif status.split(',')[2] == 'FAILED':
+        transaction.is_successful = False
+        transaction.save()
         return render(request, 'src/failure.html')
     else:  # INVALID
+        transaction.is_successful = False
+        transaction.save()
         return render(request, 'src/failure.html')
 
 

@@ -73,7 +73,8 @@ class Order(models.Model):
     buyer_address = models.TextField(null=True)
     discounted = models.IntegerField(default=0)  # means no discount to be applied
     order_date = models.DateTimeField(auto_now=True)
-    transaction_id = models.CharField(max_length=254, null=True)
+    transaction_id = models.CharField(max_length=254, null=True, unique=True, db_index=True)
+    ref_id = models.CharField(max_length=254, null=True, unique=True, db_index=True)
     is_paid = models.BooleanField(default=False)
 
     def __str__(self):

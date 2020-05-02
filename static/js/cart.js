@@ -222,23 +222,21 @@ $('.place-order').click(function () {
       Amount: shoppingCart.totalCart(),
       cart: JSON.stringify(shoppingCart.listCart())
     }
-    console.log(data)
     if (firstName === '' || lastName === '' || Email === '')
     {
       alert("Fill in your details to continue with payments")
     } else {
       $.ajax({
-        url: "ec/order/create",
+        url: "/ec/order/create",
         data: data,
         headers: { "X-CSRFToken": getCookie("csrftoken") },
         type: 'POST',
         dataType:'json',
         success: function (data){
-          alert(data)
-          console.log(data)
+          window.location.href = data.url
         },
         error: function (error) {
-          alert(error)
+          alert(JSON.stringify(error))
           console.error(error)
         }
     })

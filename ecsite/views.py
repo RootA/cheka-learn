@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum, Count
 from django.contrib import messages
+from django.http import JsonResponse
 
 from .models import Category, Item, Comments, Project, ProjectSeed, ProjectComment, Order, OrderItems
 from .models import singleItem
@@ -88,9 +89,10 @@ def create_order(request):
     Email = request.POST.get('Email')
     Amount = request.POST.get('Amount')
     order_id = uuid.uuid4()
-
+    ref_id = str(order_id)[:8]
     new_order = Order.objects.create(
         public_id=order_id,
+        ref_id=ref_id,
         buyer_name=f'{FirstName} {LastName}',
         buyer_email=Email
     )
@@ -110,7 +112,7 @@ def create_order(request):
         'Currency': 'USD',
         'Description': 'Order checkout',
         'Type': 'MERCHANT',
-        'Reference': order_items,
+        'Reference': ref_id,
         'FirstName': FirstName,
         'LastName': LastName,
         'Email': Email,
@@ -124,7 +126,9 @@ def create_order(request):
         'url': url,
         'title': 'Checkout'
     }
-    return render(request, 'src/checkout.html', context)
+    return JsonResponse(context)
+    # return HttpResponse(json.dumps(context), content_type='application/json')
+    # return render(request, 'src/checkout.html', context)
 
 def orderPesaPalPayment(request):
     order = Order.objects.get(pk=request.get('pesapal_merchant_reference'))
@@ -139,16 +143,16 @@ def orderPesaPalPayment(request):
 
 def query_payment_status(request):
     transaction_id = request.POST.get('transaction_id')
-    project_id = Order.objects.filter(transaction_id=transaction_id).first()
+    order = Order.objects.filter(transaction_id=transaction_id).first()
     params = {
-        'pesapal_merchant_reference': project_id,
+        'pesapal_merchant_reference': order.pk,
         'pesapal_transaction_tracking_id': transaction_id
     }
 
     status = queryPaymentDetails(params)
-    print(status)
-    print(status.split(',')[1])
     if status.split(',')[2] == 'COMPLETED':
+        order.is_paid = True
+        order.save()
         return render(request, 'src/success.html')
     elif status.split(',')[2] == 'PENDING':
         context = {
@@ -158,8 +162,12 @@ def query_payment_status(request):
         }
         return render(request, 'src/confirm.html', context)
     elif status.split(',')[2] == 'FAILED':
+        order.is_paid = False
+        order.save()
         return render(request, 'src/failure.html')
     else:  # INVALID
+        order.is_paid = False
+        order.save()
         return render(request, 'src/failure.html')
 
 def checkout(request):

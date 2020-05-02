@@ -131,7 +131,7 @@ def create_order(request):
     # return render(request, 'src/checkout.html', context)
 
 def orderPesaPalPayment(request):
-    order = Order.objects.get(pk=request.get('pesapal_merchant_reference'))
+    order = Order.objects.filter(ref_id=request.get('pesapal_merchant_reference')).first()
     order.transaction_id = request.get('pesapal_transaction_tracking_id')
     order.save()
     context = {
@@ -145,7 +145,7 @@ def query_payment_status(request):
     transaction_id = request.POST.get('transaction_id')
     order = Order.objects.filter(transaction_id=transaction_id).first()
     params = {
-        'pesapal_merchant_reference': order.pk,
+        'pesapal_merchant_reference': order.ref_id,
         'pesapal_transaction_tracking_id': transaction_id
     }
 

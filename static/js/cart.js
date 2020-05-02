@@ -9,10 +9,11 @@ var shoppingCart = (function() {
   cart = [];
 
   // Constructor
-  function Item(name, price, count) {
+  function Item(name, price, count, itemId) {
     this.name = name;
     this.price = price;
     this.count = count;
+    this.itemId = itemId;
   }
 
   // Save cart
@@ -35,15 +36,15 @@ var shoppingCart = (function() {
   var obj = {};
 
   // Add to cart
-  obj.addItemToCart = function(name, price, count) {
+  obj.addItemToCart = function(name, price, count, itemId) {
     for(var item in cart) {
-      if(cart[item].name === name) {
+      if(cart[item].itemId === itemId) {
         cart[item].count ++;
         saveCart();
         return;
       }
     }
-    var item = new Item(name, price, count);
+    var item = new Item(name, price, count, itemId);
     cart.push(item);
     saveCart();
   }
@@ -142,9 +143,10 @@ var shoppingCart = (function() {
 // Add item
 $('.add-to-cart').click(function(event) {
   event.preventDefault();
+  let itemId = $(this).data('id');
   var name = $(this).data('name');
   var price = Number($(this).data('price'));
-  shoppingCart.addItemToCart(name, price, 1);
+  shoppingCart.addItemToCart(name, price, 1, itemId);
   displayCart();
 });
 
@@ -206,3 +208,53 @@ $('.show-cart').on("change", ".item-count", function(event) {
 });
 
 displayCart();
+
+
+$('.place-order').click(function () {
+    let firstName = document.getElementById('firstName').value
+    let lastName = document.getElementById('lastName').value
+    let Email = document.getElementById('Email').value
+
+    let data = {
+      FirstName: firstName,
+      LastName: lastName,
+      Email: Email,
+      Amount: shoppingCart.totalCart(),
+      cart: JSON.stringify(shoppingCart.listCart())
+    }
+    console.log(data)
+    if (firstName === '' || lastName === '' || Email === '')
+    {
+      alert("Fill in your details to continue with payments")
+    } else {
+      $.ajax({
+        url: "ec/order/create",
+        data: data,
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+        type: 'POST',
+        dataType:'json',
+        success: function (data){
+          console.log(data)
+        },
+        error: function (error) {
+          console.error(error)
+        }
+    })
+    }
+});
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}

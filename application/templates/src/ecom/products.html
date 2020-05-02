@@ -38,7 +38,7 @@
                             <span class="text_inner">
                                 <span class="feature_holder">
                                     <span class="feature_holder_icons">
-                                        <a class="add-to-cart lightbox qbutton small white" data-name="{{ product.name }}" data-price="{{ product.price }}" title="{{ product.name }}"  href="" data-rel="prettyPhoto[pretty_photo_gallery]" rel="prettyPhoto[pretty_photo_gallery]">Add to Cart</a>
+                                        <a class="add-to-cart lightbox qbutton small white"  data-id="{{ product.pk }}" data-name="{{ product.name }}" data-price="{{ product.price }}" title="{{ product.name }}"  href="" data-rel="prettyPhoto[pretty_photo_gallery]" rel="prettyPhoto[pretty_photo_gallery]">Add to Cart</a>
                                         <a class="preview qbutton small white" href="{% url 'product-detail' product.pk %}" target="_self">view</a>
                                     </span>
                                 </span>

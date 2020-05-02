@@ -3,10 +3,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum, Count
+from django.contrib import messages
 
-from .models import Category, Item, Comments, Project, ProjectSeed, ProjectComment
+from .models import Category, Item, Comments, Project, ProjectSeed, ProjectComment, Order, OrderItems
 from .models import singleItem
 from .utility_functions import Mail, Helpers
+
+from application.payment import postDirectOrder
+import json
+import uuid
 
 
 def index(request):
@@ -77,6 +82,50 @@ def productComment(request, product_id):
     context = singleItem(product_id)
     return render(request, 'src/ecom/product.html', context)
 
+def create_order(request):
+    FirstName = request.POST.get('FirstName')
+    LastName = request.POST.get('LastName')
+    Email = request.POST.get('Email')
+    Amount = request.POST.get('Amount')
+    order_id = uuid.uuid4()
+
+    new_order = Order.objects.create(
+        public_id=order_id,
+        buyer_name=f'{FirstName} {LastName}',
+        buyer_email=Email
+    )
+    order_items = json.loads(request.POST.get('cart'))
+    for item in order_items:
+        item_ = Item.objects.get(pk=item['itemId'])
+        OrderItems.objects.create(
+            public_id=uuid.uuid4(),
+            order=new_order,
+            quantity=item['count'],
+            price=item['price'],
+            item=item_
+        )
+
+    request_data = {
+        'Amount': str(int(Amount)),
+        'Currency': 'USD',
+        'Description': 'Order checkout',
+        'Type': 'MERCHANT',
+        'Reference': order_items,
+        'FirstName': FirstName,
+        'LastName': LastName,
+        'Email': Email,
+    }
+    post_params = {
+        'oauth_callback': f'https://localhost:8000/order/{order_id}/success'
+    }
+    # build url to redirect user to confirm payment
+    url = postDirectOrder(post_params, request_data)
+    context = {
+        'url': url,
+        'title': 'Checkout'
+    }
+    return render(request, 'src/checkout.html', context)
+
 
 def checkout(request):
     return HttpResponse("Viewing the checkout page")
@@ -103,7 +152,6 @@ def Donations(request):
     if page_obj.paginator.num_pages > 0:
         for page in range(0, page_obj.paginator.num_pages):
             list_pages.append(page + 1)
-    print(list_pages)
     context = {
         'title': 'Cheka Tv - Donations',
         'donations': page_obj,

@@ -67,18 +67,24 @@ class Image(models.Model):
 
 class Order(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
     buyer_name = models.CharField(max_length=200)
-    buyer_email = models.EmailField()
-    buyer_phone_address = models.CharField(max_length=20)
-    buyer_address = models.TextField()
+    buyer_email = models.EmailField(null=True)
+    buyer_phone_address = models.CharField(max_length=20, null=True)
+    buyer_address = models.TextField(null=True)
     discounted = models.IntegerField(default=0)  # means no discount to be applied
     order_date = models.DateTimeField(auto_now=True)
     is_paid = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.item
+        return self.buyer_name
+
+class OrderItems(models.Model):
+    public_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, editable=False)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    price = models.IntegerField(default=0)
+    order_date = models.DateTimeField(auto_now=True)
 
 
 class ProcessingStages(models.Model):

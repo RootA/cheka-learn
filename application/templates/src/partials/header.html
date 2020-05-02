@@ -10,8 +10,13 @@
         <ul>
           <li class="{{ active }}"><a href="/">Home</a></li>
           <li class="{{ active }}"><a href="{% url 'ec-index' %}">EC Site</a></li>
-          <li class={{ active }}""><a href="https://www.youtube.com/channel/UC9mJzvWMhvTZmc_vIRkDflQ">Youtube</a></li>
-          <li><a href="#header" class="cart" data-toggle="modal" data-target="#cart">Cart(<span class="total-count"></span>)</a></li>
+          <li><a class="cart" data-toggle="modal" data-target="#cart">Cart(<span class="total-count"></span>)</a></li>
+            <li class="drop-down"><a href="">YouTube</a>
+            <ul>
+              <li><a href="https://www.youtube.com/channel/UC9mJzvWMhvTZmc_vIRkDflQ">CHEKA TV</a></li>
+              <li><a href="https://www.youtube.com/channel/UCI8XLIYkUjaysxESsrKr84w">シンノスケ【アフリカYouTuber】</a></li>
+            </ul>
+          </li>
         </ul>
       </nav><!-- .nav-menu -->
 

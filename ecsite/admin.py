@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import Category, Item, Order, Image, ProcessingStages, OrderStage, \
     Project, ProjectImage, ProjectSeed, \
-    ProjectUpdate, ProjectComment
+    ProjectUpdate, ProjectComment, OrderItems
 
 admin.site.site_header = "CHEKATV DASHBOARD"
 
@@ -17,10 +17,13 @@ class ItemsAdmin(admin.ModelAdmin):
 
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('item', 'quantity', 'buyer_name', 'buyer_email', 'buyer_phone_address', 'buyer_address',
+    list_display = ('buyer_name', 'buyer_email', 'buyer_phone_address', 'buyer_address',
                     'discounted', 'is_paid')
-    list_filter = ['item', 'is_paid', 'buyer_phone_address', 'discounted']
+    list_filter = ['is_paid', 'buyer_phone_address', 'discounted']
 
+class OrderItemsAdmin(admin.ModelAdmin):
+    list_display = ('order', 'item', 'quantity', 'price')
+    list_filter = ['order', 'item']
 
 class ImagesAdmin(admin.ModelAdmin):
     list_display = ('item', 'upload')
@@ -63,6 +66,7 @@ class ProjectCommentAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Item, ItemsAdmin)
 admin.site.register(Order, OrdersAdmin)
+admin.site.register(OrderItems, OrderItemsAdmin)
 admin.site.register(Image, ImagesAdmin)
 admin.site.register(ProcessingStages, ProcessingStagesAdmin)
 admin.site.register(OrderStage, OrderStageAdmin)

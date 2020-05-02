@@ -1,7 +1,7 @@
 {% extends 'src/base.html' %}
 {% load static %}
 {% block title %}
-    {{ title }}
+    {{ title|default:product.name }}
 {% endblock title %}
 {% block hero %}
     {% include 'src/partials/hero.html' %}
@@ -34,7 +34,7 @@
                 <form action="">
                     <div class="row">
                         <div class="col-md-4">
-                            <a data-name="{{ product.name }}" data-price="{{ product.price }}" class="add-to-cart btn btn-primary">Add to cart</a>
+                            <a data-id="{{ product.pk }}" data-name="{{ product.name }}" data-price="{{ product.price }}" class="add-to-cart btn btn-primary" style="color: white">Add to cart</a>
                         </div>
                     </div>
                 </form>

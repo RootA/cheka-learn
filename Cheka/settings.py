@@ -48,7 +48,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.str('DEBUG')
 
 ALLOWED_HOSTS = []
 APP_NAME = 'Cheka Tv Edu'

@@ -53,6 +53,7 @@
             success: function (data){
                 alert("Payment was successful")
                 shoppingCart.removeItemFromCartAll()
+                window.location.href('/')
             },
             error: function (error) {
               alert(error)

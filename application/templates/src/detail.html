@@ -17,9 +17,9 @@
         </div>
       </div>
     </section><!-- End Features Section -->
-    <section id="details" class="details">
-      <div class="container">
-        <div class="row content">
+    <section id="details" class="details" style="background-color: white">
+      <div class="container" >
+        <div class="row content" style="background-color: white">
           <div class="col-md-4 aos-init aos-animate" data-aos="fade-right">
             <img src="/{{ project.thumbnail.url }}" class="img-fluid" alt="">
           </div>
@@ -32,7 +32,7 @@
         </div>
       <hr>
           <div class="row">
-            <div class="col-md-8">
+            <div class="offset-4 col-md-8">
                 <form action="{% url 'payment' project.pk %}" method="post">
                     {% csrf_token %}
                     <div class="row">
@@ -51,11 +51,6 @@
                     </div>
                 </form>
             </div>
-              <div class="col-md-4">
-
-{#                  <a href="/payment/{{ project.pk }}" class="btn btn-primary">Checkout</a>#}
-{#                  <iframe id="encoder_iframe" height=75% width="50%" src="{% url 'payment' project.pk %}"></iframe>#}
-              </div>
           </div>
       </div>
     </section>

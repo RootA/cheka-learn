@@ -14,6 +14,6 @@ urlpatterns = [
     path('order/payment/', views.orderPesaPalPayment, name='order-payment'),
     path('order/payment/check', views.query_payment_status, name='order-payment-check'),
     path('comment/<product_id>/', views.productComment, name='product_comment'),
-    path('donations', views.Donations, name='donations'),
-    path('donation/<donation_id>', views.singleDonation, name='single-donation')
+    # path('donations', views.Donations, name='donations'),
+    # path('donation/<donation_id>', views.singleDonation, name='single-donation')
 ]

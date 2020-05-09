@@ -126,9 +126,9 @@ def create_order(request):
         'url': url,
         'title': 'Checkout'
     }
-    return JsonResponse(context)
+    # return JsonResponse(context)
     # return HttpResponse(json.dumps(context), content_type='application/json')
-    # return render(request, 'src/checkout.html', context)
+    return render(request, 'src/checkout.html', context)
 
 def orderPesaPalPayment(request):
     order = Order.objects.filter(ref_id=request.get('pesapal_merchant_reference')).first()

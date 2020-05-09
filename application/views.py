@@ -2,19 +2,24 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 from django.conf import settings
+from django.views.generic import ListView, FormView
+from django.db.models import Avg, Max, Min, Sum, Count
+
 from .utility_functions import *
 import requests
-import pesapal
+
 from .payment import postDirectOrder, queryPaymentDetails
 
 
 def index(request):
     context = {
-        'hero_text': 'Welcome to',
-        'key_text': 'Cheka Business',
-        'summary': 'We offer you access to classes, entertainment, business opportunity',
-        'thumbnail': '/img/hero-img.png',
-        'title': 'Cheka group'
+        'hero_text': 'KARIBU',
+        'key_text': 'CHEKA オンライン',
+        'summary': '"アフリカの笑顔と日本を繋ぐ"',
+        'thumbnail': '/img/chekafe Logo.png',
+        'thumbnail1': '/img/ChekaTV.jpg',
+        'thumbnail2': '/img/CHEKAIZAKAYALOGO.jpg',
+        'title': 'Cheka'
     }
     return render(request, 'src/index.html', context)
 
@@ -26,10 +31,12 @@ def projects(request):
     context = {
         'categories': categories,
         'projects': all_projects,
-        'hero_text': 'Build Your English language Skills With',
-        'key_text': 'Cheka TV',
-        'summary': 'We offer you one to one lessons with the Cheka TV staff',
-        'thumbnail': '/img/hero-img.png',
+        'hero_text': 'Lets connect online with different activities, through',
+        'key_text': 'Cheka',
+        'summary': '"アフリカの笑顔と日本を繋ぐ"',
+        'thumbnail': '/img/chekafe Logo.png',
+        'thumbnail1': '/img/ChekaTV.jpg',
+        'thumbnail2': '/img/CHEKAIZAKAYALOGO.jpg',
         'title': 'Cheka projects'
     }
     return render(request, 'src/projects.html', context)
@@ -37,16 +44,31 @@ def projects(request):
 def project_detail(request, project_id):
     categories = fetch_categories()
     project = fetch_single_project(project_id)
+    # token = generate_token()
     context = {
         'categories': categories,
         'project': project,
         'key_text': project.name,
         'summary': f'${project.price}',
         'checkout_amount': int(project.price * 100),
-        'thumbnail': project.thumbnail,
-        'title': project.name
+        'thumbnail': '/img/chekafe Logo.png',
+        'thumbnail1': '/img/ChekaTV.jpg',
+        'thumbnail2': '/img/CHEKAIZAKAYALOGO.jpg',
+        'title': project.name,
     }
 
+    # token = generate_token()
+    # context = {
+    #     'categories': categories,
+    #     'projects': project
+    #     'project': project,
+    #     'key_text': project.name,
+    #     'summary': f'${project.price}',
+    #     'checkout_amount': int(project.price * 100),
+    #     'thumbnail': project.thumbnail,
+    #     'payment_token': token,
+    #     'show-checkout': True if token else False
+    # }
     return render(request, 'src/detail.html', context)
 
 
@@ -73,6 +95,27 @@ def project_checkout(request, project_id):
     }
     return render(request, 'src/checkout.html', context)
 
+
+class DonationsView(ListView):
+    model = Donation
+    template_name = 'src/donations.html'
+    context_object_name = 'donations'
+
+
+def singleDonation(request, donation_id):
+    donation = Donation.objects.get(id=donation_id)
+    donation_updates = DonationUpdate.objects.filter(donation=donation, is_active=True)
+    seeds = DonationTransaction.objects.filter(donation=donation).all()
+    comments = DonationComment.objects.filter(donation=donation, is_active=True).all()
+    incentives = DonationIncentives.objects.filter(is_active=True).all().reverse()
+    context = {
+        'donation': donation,
+        'seeds': seeds,
+        'comments': comments,
+        'incentives': incentives,
+        'updates': donation_updates
+    }
+    return render(request, 'src/single_donation.html', context)
 
 def pesapal_callback(request):
     ref_id = request.get('pesapal_merchant_reference')

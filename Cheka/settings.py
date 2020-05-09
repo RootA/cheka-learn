@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'j4a-h!6_sol^7qhf*-4rad!&b^mdo_mzeox8^3xs+(dkrzct(r'
 OPENEXCHANGERATES_APP_ID = env.str('OPENEXCHANGERATES_APP_ID')
-USE_THOUSAND_SEPARATOR = True
+# USE_THOUSAND_SEPARATOR = True
 # Email configuration
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 

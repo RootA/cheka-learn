@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+        <h5 class="modal-title" id="exampleModalLabel">カート</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,33 +12,33 @@
         <table class="show-cart table">
 
         </table>
-        <div>Total price: $<span class="total-cart"></span></div>
+        <div>トータル値段: $<span class="total-cart"></span></div>
           <hr>
-          <h3>Checkout</h3>
+          <h3>チェックアウト</h3>
           <br>
         <div class="col-md-12">
             <form method="post">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-4">
-                        <input type="text" placeholder="First Name" name="first_name" class="form-control" value="" id="firstName" required>
+                        <input type="text" placeholder="名" name="first_name" class="form-control" value="" id="firstName" required>
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" placeholder="Last Name" name="last_name" class="form-control"  value="" id="lastName" required>
+                        <input type="text" placeholder="苗字" name="last_name" class="form-control"  value="" id="lastName" required>
                     </div>
                     <div class="col-lg-4">
-                        <input type="email" placeholder="Email" name="email" class="form-control" value="" id="Email" required>
+                        <input type="email" placeholder="メールアド" name="email" class="form-control" value="" id="Email" required>
                     </div>
                     <div class="offset-10 col-lg-12" style="margin-top: 10px">
-                        <button type="submit" class="place-order btn btn-primary pull-right">Pay Now</button>
+                        <button type="submit" class="place-order btn btn-primary pull-right">お支払い</button>
                     </div>
                 </div>
             </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="clear-cart btn btn-danger">Clear Cart</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button class="clear-cart btn btn-danger">カート削除</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
       </div>
     </div>
   </div>

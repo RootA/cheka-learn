@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-lg-7 pt-5 pt-lg-0 order-2 order-lg-1 d-flex align-items-center">
           <div data-aos="zoom-out">
-            <h1>{{ hero_text }}<span> {{ key_text }}</span></h1>
+            <h1>{{ hero_text }}<span><br/>{{ key_text }}</span></h1>
             <h2>{{ summary }}</h2>
             <div class="text-center text-lg-left">
 {#              <a href="#about" class="btn-get-started scrollto">Get Started</a>#}
@@ -13,7 +13,19 @@
           </div>
         </div>
         <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="300">
-          <img src="{{ thumbnail.url }}" class="img-fluid animated" alt="">
+            <div class="row">
+                {% if thumbnail %}
+                <div class="col-md-4">
+                    <a href="https://www.instagram.com/cheka_tv_kenya/" target="_blank"><img src="{% static  thumbnail1 %}" class="img-fluid animated" alt="Cheka TV"></a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://www.instagram.com/cheka_japanese_izakaya/" target="_blank"><img src="{% static  thumbnail2 %}" class="img-fluid animated" alt="Cheka Izakaya"></a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://www.instagram.com/chekafe/?hl=ja" target="_blank"><img src="{% static  thumbnail %}" class="img-fluid animated" alt="Chekafe"></a>
+                </div>
+                {% endif %}
+            </div>
         </div>
       </div>
     </div>

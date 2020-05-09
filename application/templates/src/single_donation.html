@@ -1,0 +1,119 @@
+{% extends 'src/base.html' %}
+{% load static %}
+{% block title %}
+    {{ donation.name }}
+{% endblock title %}
+{% block hero %}
+    {% include 'src/partials/hero.html' %}
+{% endblock %}
+{% block content %}
+        <!-- ======= Features Section ======= -->
+    <section id="team" class="team">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <p>{{ donation.name }}</p>
+        </div>
+      </div>
+    </section><!-- End Features Section -->
+    <section id="details" class="details" style="background-color: white">
+      <div class="container" >
+        <div class="row content" style="background-color: white">
+            <div class="col-md-8">
+                <div class="col-md-12 aos-init aos-animate" data-aos="fade-right">
+                    <img src="/{{ donation.thumbnail.url }}" class="img-fluid" alt="">
+                  </div>
+                  <div class="col-md-12 pt-4 aos-init aos-animate" data-aos="fade-up">
+                    <p class="font-italic">
+                      {{ donation.description }} {{ donation.amount  }}
+                    </p>
+                  </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                      <div class="card-header">Money Raised</div>
+                      <div class="card-body">
+                        <h1 class="">$ {{ donation.amount }}</h1>
+                      </div>
+                    </div>
+                  <h2 style="margin-bottom: 10px; margin-top: 40px; font-weight: bold">Donate</h2>
+                {% if incentives %}
+                    {% for incentive in incentives %}
+                        <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+                              <div class="card-body">
+                                <h5 class="">$ {{ incentive.amount }} {{ incentive.title }}</h5>
+                                <p class="card-text">{{ incentive.description }}</p>
+                              </div>
+                              <div class="card-footer">
+                                  <a href="" class="btn btn-sm btn-primary pull-right" style="float: right">Donate</a>
+                              </div>
+                            </div>
+                    {% endfor %}
+                {% endif %}
+              </div>
+        </div>
+          <div class="row" style="margin-top: 20px">
+              <div class="col-md-8">
+                  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Updates</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Comments</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Seeds</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                          {% if updates %}
+                              {% for update in updates %}
+                                  <div class="col-sm-12">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">{{ update.created_at|date:'Y-m-d' }}</h5>
+                                        <p class="card-text text-justify" style="text-align: justify">{{ update.description }}</p>
+                                        <img src="/{{ update.thumbnail.url }}"/>
+                                      </div>
+                                    </div>
+                                  </div>
+                              {% endfor %}
+                          {% endif %}
+                      </div>
+                      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                           {% if comments %}
+                              {% for comment in comments %}
+                                  <div class="col-sm-12">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">{{ comment.full_name}}</h5>
+                                        <p class="card-text">{{ comment.comment }}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                              {% endfor %}
+                          {% endif %}
+                      </div>
+                      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                          {% if seeds %}
+                              {% for seed in seeds %}
+                                  <div class="col-sm-12">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="">
+                                            {{ seed.full_name}}
+                                        </h5>
+                                        <span class="pull-right">${{ seed.amount }}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                              {% endfor %}
+                          {% endif %}
+                      </div>
+                    </div>
+              </div>
+          </div>
+      </div>
+    </section>
+{% endblock content %}

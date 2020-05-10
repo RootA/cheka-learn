@@ -82,9 +82,19 @@
                           {% endif %}
                       </div>
                       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                          <form action="{% url 'comment' donation.pk %}" method="post" style="margin-bottom: 20px">
+                              {% csrf_token %}
+                              {{ comment_form.as_p }}
+                              <br>
+                              <button type="submit" class="btn btn-primary pull-right">POST</button>
+                          </form>
+
+                          <hr>
+                            <h4>Comments</h4>
+                          <br>
                            {% if comments %}
                               {% for comment in comments %}
-                                  <div class="col-sm-12">
+                                  <div class="col-sm-12" style="margin-bottom: 10px">
                                     <div class="card">
                                       <div class="card-body">
                                         <h5 class="card-title">{{ comment.full_name}}</h5>
@@ -98,7 +108,7 @@
                       <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                           {% if seeds %}
                               {% for seed in seeds %}
-                                  <div class="col-sm-12">
+                                  <div class="col-sm-12" style="margin-bottom: 10px">
                                     <div class="card">
                                       <div class="card-body">
                                         <h5 class="">

@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
-from django.views.generic import TemplateView
-from .views import DonationsView
+from .views import DonationsView, CommentView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -14,5 +13,6 @@ urlpatterns = [
     
     path('donations', DonationsView.as_view(), name='donations'),
     path('donation/<str:donation_id>', views.singleDonation, name='donation'),
+    path('donation/comment/<str:donation_id>', CommentView.as_view(), name='comment'),
     path('donation/payment/<str:donation_id>', views.singleDonation, name='donation-payment')
 ]

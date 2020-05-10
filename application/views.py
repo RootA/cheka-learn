@@ -1,11 +1,12 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
-from django.views.generic import ListView, FormView
-from django.db.models import Avg, Max, Min, Sum, Count
+from django.views.generic import ListView, FormView, CreateView
 
 from .utility_functions import *
+from .forms import CommentForm
+
 import requests
 
 from .payment import postDirectOrder, queryPaymentDetails
@@ -106,16 +107,35 @@ def singleDonation(request, donation_id):
     donation = Donation.objects.get(id=donation_id)
     donation_updates = DonationUpdate.objects.filter(donation=donation, is_active=True)
     seeds = DonationTransaction.objects.filter(donation=donation).all()
-    comments = DonationComment.objects.filter(donation=donation, is_active=True).all()
+    comments = DonationComment.objects.filter(donation=donation, is_active=True).all().reverse()
     incentives = DonationIncentives.objects.filter(is_active=True).all().reverse()
+    form = CommentForm()
     context = {
         'donation': donation,
         'seeds': seeds,
         'comments': comments,
         'incentives': incentives,
-        'updates': donation_updates
+        'updates': donation_updates,
+        'comment_form': form
     }
     return render(request, 'src/single_donation.html', context)
+
+
+class CommentView(FormView):
+    model = DonationComment
+    form_class = CommentForm()
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            donation = Donation.objects.get(id=kwargs['donation_id'])
+            form.instance.donation = donation
+            form.save()
+            messages.info(request, 'Thank you for the comment!')
+            return redirect('donation', donation.pk)
+        else:
+            return self.form_invalid(form)
+
 
 def pesapal_callback(request):
     ref_id = request.get('pesapal_merchant_reference')

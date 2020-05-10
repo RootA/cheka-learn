@@ -7,12 +7,13 @@ urlpatterns = [
     path('projects', views.projects, name='projects'),
     path('project/<project_id>', views.project_detail, name='project-detail'),
     # path('project/<project_id>/process', views.project_checkout, name='project-detail'),
-    path('project/payemnt/', views.payment_successful, name='payment-successful'),
+    path('project/payment/', views.payment_successful, name='payment-successful'),
     path('project/payment/check', views.query_payment_status, name='project-payment-check'),
     path('payment/<project_id>', views.project_checkout, name='payment'),
-    
+
     path('donations', DonationsView.as_view(), name='donations'),
     path('donation/<str:donation_id>', views.singleDonation, name='donation'),
     path('donation/comment/<str:donation_id>', CommentView.as_view(), name='comment'),
-    path('donation/payment/<str:donation_id>', views.singleDonation, name='donation-payment')
+    path('donation/payment/<str:donation_id>', views.donationPayment, name='donation-payment'),
+    path('donation/payment/callback', views.donationPaymentCallback, name='donation-payment-callback')
 ]

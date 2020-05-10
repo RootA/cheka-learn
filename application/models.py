@@ -59,13 +59,14 @@ class Transaction(models.Model):
 
 class Donation(models.Model):
     id = models.UUIDField(editable=False, primary_key=True, default=uuid.uuid4)
+    ref_id = models.CharField(editable=False, max_length=8, unique=True,  default=generate_uuid())
     name = models.CharField(max_length=200)
     description = models.TextField(blank=False)
     thumbnail = models.ImageField(upload_to='projects')
     amount = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now=True)
-
+        
     class Meta:
         ordering = ['-created_at']
 

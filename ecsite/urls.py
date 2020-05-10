@@ -12,6 +12,7 @@ urlpatterns = [
     path('order/create', views.create_order, name='create-order'),
     path('orders/<order_id>/', views.orderDetails, name='single_orders'),
     path('order/payment/', views.orderPesaPalPayment, name='order-payment'),
+    path('payment/checkout/<order_id>', views.checkout, name='checkout'),
     path('order/payment/check', views.query_payment_status, name='order-payment-check'),
     path('comment/<product_id>/', views.productComment, name='product_comment'),
     # path('donations', views.Donations, name='donations'),

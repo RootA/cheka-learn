@@ -18,7 +18,7 @@ class ItemsAdmin(admin.ModelAdmin):
 
 class OrdersAdmin(admin.ModelAdmin):
     list_display = ('buyer_name', 'ref_id', 'transaction_id', 'buyer_address',
-                    'discounted', 'is_paid', 'order_date')
+                    'discounted', 'amount','is_paid', 'order_date')
     list_filter = ['is_paid', 'buyer_phone_address', 'discounted']
 
 class OrderItemsAdmin(admin.ModelAdmin):

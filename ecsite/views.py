@@ -88,13 +88,19 @@ def create_order(request):
     LastName = request.POST.get('LastName')
     Email = request.POST.get('Email')
     Amount = request.POST.get('Amount')
+    PhoneNumber = request.POST.get('PhoneNumber')
+    Address = request.POST.get('Address')
+    print(request.POST)
     order_id = uuid.uuid4()
     ref_id = str(order_id)[:8]
     new_order = Order.objects.create(
         public_id=order_id,
         ref_id=ref_id,
         buyer_name=f'{FirstName} {LastName}',
-        buyer_email=Email
+        buyer_email=Email,
+        buyer_address=Address,
+        buyer_phone_address=PhoneNumber,
+        amount=Amount
     )
     order_items = json.loads(request.POST.get('cart'))
     for item in order_items:
@@ -106,16 +112,25 @@ def create_order(request):
             price=item['price'],
             item=item_
         )
+    context = {
+        'order_id': order_id,
+        'title': 'Checkout'
+    }
+    return JsonResponse(context)
 
+
+def checkout(request, order_id):
+    order = Order.objects.get(pk=order_id)
+    FirstName, LastName = order.buyer_name.split()
     request_data = {
-        'Amount': str(int(Amount)),
+        'Amount': str(order.amount),
         'Currency': 'USD',
         'Description': 'Order checkout',
         'Type': 'MERCHANT',
-        'Reference': ref_id,
+        'Reference': order.ref_id,
         'FirstName': FirstName,
         'LastName': LastName,
-        'Email': Email,
+        'Email': order.buyer_email,
     }
     post_params = {
         'oauth_callback': f'http://localhost:8000/order/payment/'
@@ -126,8 +141,6 @@ def create_order(request):
         'url': url,
         'title': 'Checkout'
     }
-    # return JsonResponse(context)
-    # return HttpResponse(json.dumps(context), content_type='application/json')
     return render(request, 'src/checkout.html', context)
 
 def orderPesaPalPayment(request):
@@ -169,9 +182,6 @@ def query_payment_status(request):
         order.is_paid = False
         order.save()
         return render(request, 'src/failure.html')
-
-def checkout(request):
-    return HttpResponse("Viewing the checkout page")
 
 
 def orders(request):

@@ -19,7 +19,7 @@ class TransactionsAdmin(admin.ModelAdmin):
 
 @admin.register(Donation)
 class DonationAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description', 'amount', 'is_active', 'created_at']
+    list_display = ['ref_id', 'name', 'description', 'amount', 'is_active', 'created_at']
     list_filter = ['is_active']
 
 @admin.register(DonationUpdate)

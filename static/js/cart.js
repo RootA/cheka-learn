@@ -72,9 +72,9 @@ var shoppingCart = (function() {
   }
 
   // Remove all items from cart
-  obj.removeItemFromCartAll = function(name) {
+  obj.removeItemFromCartAll = function(itemId) {
     for(var item in cart) {
-      if(cart[item].name === name) {
+      if(cart[item].itemId === itemId) {
         cart.splice(item, 1);
         break;
       }
@@ -164,10 +164,10 @@ function displayCart() {
     output += "<tr>"
       + "<td>" + cartArray[i].name + "</td>"
       + "<td>(" + cartArray[i].price + ")</td>"
-      + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
+      + "<td><div class='input-group'>"
       + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
-      + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
-      + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
+      + "</div></td>"
+      + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].itemId + ">X</button></td>"
       + " = "
       + "<td>" + cartArray[i].total + "</td>"
       +  "</tr>";
@@ -180,8 +180,8 @@ function displayCart() {
 // Delete item button
 
 $('.show-cart').on("click", ".delete-item", function(event) {
-  var name = $(this).data('name')
-  shoppingCart.removeItemFromCartAll(name);
+  var itemId = $(this).data('name')
+  shoppingCart.removeItemFromCartAll(itemId);
   displayCart();
 })
 
@@ -214,11 +214,15 @@ $('.place-order').click(function () {
     let firstName = document.getElementById('firstName').value
     let lastName = document.getElementById('lastName').value
     let Email = document.getElementById('Email').value
+    let PhoneNumber = document.getElementById('PhoneNumber').value
+    let Address = document.getElementById('Address').value
 
     let data = {
       FirstName: firstName,
       LastName: lastName,
       Email: Email,
+      PhoneNumber: PhoneNumber,
+      Address: Address,
       Amount: shoppingCart.totalCart(),
       cart: JSON.stringify(shoppingCart.listCart())
     }
@@ -233,10 +237,9 @@ $('.place-order').click(function () {
         type: 'POST',
         dataType:'json',
         success: function (data){
-          window.location.href = data.url
+          window.location.href = '/ec/payment/checkout/'+data.order_id
         },
         error: function (error) {
-          alert(JSON.stringify(error))
           console.error(error)
         }
     })

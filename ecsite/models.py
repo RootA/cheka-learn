@@ -75,6 +75,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now=True)
     transaction_id = models.CharField(max_length=254, null=True, unique=True, db_index=True)
     ref_id = models.CharField(max_length=254, null=True, unique=True, db_index=True)
+    amount = models.IntegerField(default=0)
     is_paid = models.BooleanField(default=False)
 
     def __str__(self):

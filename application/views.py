@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
 from django.views.generic import ListView, FormView, CreateView
+from django.views.generic.base import View
 
 from .utility_functions import *
 from .forms import CommentForm
@@ -96,11 +97,13 @@ def project_checkout(request, project_id):
     }
     return render(request, 'src/checkout.html', context)
 
-
 class DonationsView(ListView):
     model = Donation
     template_name = 'src/donations.html'
     context_object_name = 'donations'
+
+    def get_queryset(self):
+        return self.model.objects.filter(is_active=True).all()
 
 
 def singleDonation(request, donation_id):
@@ -120,6 +123,55 @@ def singleDonation(request, donation_id):
     }
     return render(request, 'src/single_donation.html', context)
 
+
+def donationPayment(request, donation_id):
+    donation_id = request.POST.get('donation_id')
+    amount = request.POST.get('amount')
+    firstName = request.POST.get('first_name')
+    lastName = request.POST.get('last_name')
+    Email = request.POST.get('email')
+    donation = Donation.objects.get(id=donation_id)
+    DonationTransaction.objects.create(
+        donation=donation,
+        full_name=f'{firstName} {lastName}',
+        amount=amount
+    )
+
+    request_data = {
+        'Amount': str(int(amount)),
+        'Currency': 'USD',
+        'Description': donation.name,
+        'Type': 'MERCHANT',
+        'Reference': donation.ref_id,
+        'FirstName': firstName,
+        'LastName': lastName,
+        'Email': Email,
+    }
+    post_params = {
+        'oauth_callback': f'http://localhost:8000/donation/payment/callback'
+    }
+    # build url to redirect user to confirm payment
+    url = postDirectOrder(post_params, request_data)
+    context = {
+        'url': url,
+        'title': 'Checkout'
+    }
+    return render(request, 'src/checkout.html', context)
+
+def donationPaymentCallback(request):
+    ref_id = request.get('pesapal_merchant_reference')
+    transaction_id = request.get('pesapal_transaction_tracking_id')
+    donation = Donation.objects.filter(ref_id=ref_id).first()
+    if donation:
+        donation.transaction_id = transaction_id
+        donation.save()
+
+    context = {
+        'title': 'Check Payment',
+        'transaction_id': transaction_id,
+        'show_success': False,
+    }
+    return render(request, 'src/check_transaction.html', context)
 
 class CommentView(FormView):
     model = DonationComment

@@ -1,24 +1,25 @@
  <!-- Modal -->
-<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="donation-checkout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style=".modal-backdrop { z-index: -1} margin-top: 20px">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">カート</h5>
+        <h5 class="modal-title" id="exampleModalLabel">寄付</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <table class="show-cart table">
-
-        </table>
-        <div>トータル値段: $<span class="total-cart"></span></div>
+        <div>寄付: $<span class="total-cart"></span></div>
           <hr>
           <h3>チェックアウト</h3>
           <br>
         <div class="col-md-12">
-{#            <form method="post">#}
-{#                {% csrf_token %}#}
+            {% if donation %}
+                <form method="post" action="{% url 'donation-payment' donation.pk %}">
+            {% else %}
+                <form method="post">
+            {% endif %}
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-4">
                         <input type="text" placeholder="名" name="first_name" class="form-control" value="" id="firstName" required>
@@ -29,21 +30,22 @@
                     <div class="col-lg-4">
                         <input type="email" placeholder="メールアド" name="email" class="form-control" value="" id="Email" required>
                     </div>
+                </div>
+                <div class="row">
+                     <div class="col-lg-4" style="margin-top: 10px">
+                        <input type="number" placeholder="Amount" name="amount" class="form-control" value id="amount">
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" placeholder="" name="donation_id" class="form-control" value="{{ donation.pk }}" id="firstName" hidden aria-hidden="true">
+                    </div>
                     <div class="col-lg-4" style="margin-top: 10px">
-                        <input type="text" placeholder="電話番号" name="phone_number" class="form-control"  value="" id="PhoneNumber" required>
-                    </div>
-                    <div class="col-lg-8" style="margin-top: 10px">
-                        <input type="text" placeholder="届くアドレス" name="address" class="form-control" value="" id="Address" required>
-                    </div>
-                    <div class="offset-10 col-lg-12" style="margin-top: 10px">
-                        <button type="submit" class="place-order btn btn-primary pull-right">お支払い</button>
+                        <button type="submit" class="btn btn-primary pull-right" style="float: right">Donate</button>
                     </div>
                 </div>
-{#            </form>#}
+            </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="clear-cart btn btn-danger">カート削除</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
       </div>
     </div>

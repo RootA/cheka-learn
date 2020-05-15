@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 DJANGO_WYSIWYG_FLAVOR = "ckeditor"
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -156,6 +157,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+#  Add configuration for static files storage using whitenoise
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
 
@@ -168,3 +172,7 @@ PESAPAL_SECRET_KEY = env.str('PESAPAL_SECRET_KEY')
 TESTING = env.str('TESTING')
 
 X_FRAME_OPTIONS = 'ALLOW-FROM https://demo.pesapal.com'
+
+import dj_database_url
+prod_db  =  dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)

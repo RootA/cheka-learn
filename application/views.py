@@ -34,7 +34,7 @@ def projects(request):
         'categories': categories,
         'projects': all_projects,
         'hero_text': 'Lets connect online with different activities, through',
-        'key_text': 'Cheka',
+        'key_text': 'Cheka チェカTV',
         'summary': '"アフリカの笑顔と日本を繋ぐ"',
         'thumbnail': '/img/chekafe Logo.png',
         'thumbnail1': '/img/ChekaTV.jpg',

@@ -1,7 +1,10 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from datetime import datetime
+
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, FormView, CreateView
 from django.views.generic.base import View
 
@@ -9,6 +12,7 @@ from .utility_functions import *
 from .forms import CommentForm
 
 import requests
+import json
 
 from .payment import postDirectOrder, queryPaymentDetails
 
@@ -296,3 +300,37 @@ def generate_token():
     print(response.json())
 
     return response.json()['payment-token'] if response.status_code == 200 else ''
+
+
+# Paypal Integration
+@csrf_exempt
+def paypal_checkout_success(request):
+    if request.is_ajax():
+        payment_data = json.loads(request.POST.get('response'))
+        payment_reference = request.POST.get('type')
+        ref_id = request.POST.get('ref_id')
+        amount = request.POST.get('amount')
+
+        if int(payment_reference) == 1:
+            add_online_learning_transaction(payment_data, amount, ref_id)
+        else:
+            add_ec_site_transaction(payment_data, amount, ref_id)
+        return JsonResponse({'message': 'Thank you'})
+
+def add_online_learning_transaction(payment_data, amount, ref_id):
+    project = Project.objects.filter(pk=ref_id).first()
+    if project:
+        Transaction.objects.create(
+            transaction_id=payment_data['id'],
+            project=project,
+            transaction_date=datetime.now(),
+            amount=amount,
+            full_name=f"{payment_data['payer']['name']['given_name']} {payment_data['payer']['name']['surname']}",
+            extra_data="PayPal Payment",
+            payment_mode="PayPal",
+            is_successful=True
+        )
+        return True
+
+def add_ec_site_transaction(payment_data, amount, ref_id):
+    return ""

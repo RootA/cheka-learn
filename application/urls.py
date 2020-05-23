@@ -15,5 +15,7 @@ urlpatterns = [
     path('donation/<str:donation_id>', views.singleDonation, name='donation'),
     path('donation/comment/<str:donation_id>', CommentView.as_view(), name='comment'),
     path('donation/payment/<str:donation_id>', views.donationPayment, name='donation-payment'),
-    path('donation/payment/callback', views.donationPaymentCallback, name='donation-payment-callback')
+    path('donation/payment/callback', views.donationPaymentCallback, name='donation-payment-callback'),
+
+    path('payment/paypal/transaction', views.paypal_checkout_success, name='paypal-success')
 ]

@@ -14,7 +14,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Transaction)
 class TransactionsAdmin(admin.ModelAdmin):
-    list_display = ['project', 'full_name', 'amount', 'is_successful', 'transaction_date']
+    list_display = ['project', 'transaction_id', 'full_name', 'amount', 'is_successful', 'transaction_date']
     list_filter = ['project', 'is_successful', 'full_name']
 
 @admin.register(Donation)

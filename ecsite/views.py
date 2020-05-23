@@ -90,7 +90,6 @@ def create_order(request):
     Amount = request.POST.get('Amount')
     PhoneNumber = request.POST.get('PhoneNumber')
     Address = request.POST.get('Address')
-    print(request.POST)
     order_id = uuid.uuid4()
     ref_id = str(order_id)[:8]
     new_order = Order.objects.create(

@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, FormView, CreateView
 from django.views.generic.base import View
 
+from ecsite.models import Order, Item, OrderItems
 from .utility_functions import *
 from .forms import CommentForm
 
@@ -308,13 +309,18 @@ def paypal_checkout_success(request):
     if request.is_ajax():
         payment_data = json.loads(request.POST.get('response'))
         payment_reference = request.POST.get('type')
-        ref_id = request.POST.get('ref_id')
+        ref_id = request.POST.get('ref_id', '')
+        cart = request.POST.get('cart', '')
         amount = request.POST.get('amount')
+        PhoneNumber = request.POST.get('phone', '')
+        Address = request.POST.get('address', '')
 
         if int(payment_reference) == 1:
             add_online_learning_transaction(payment_data, amount, ref_id)
+        elif int(payment_reference) == 2:
+            add_ec_site_transaction(payment_data, amount, cart, PhoneNumber, Address)
         else:
-            add_ec_site_transaction(payment_data, amount, ref_id)
+            donation_transaction(amount, ref_id)
         return JsonResponse({'message': 'Thank you'})
 
 def add_online_learning_transaction(payment_data, amount, ref_id):
@@ -332,5 +338,32 @@ def add_online_learning_transaction(payment_data, amount, ref_id):
         )
         return True
 
-def add_ec_site_transaction(payment_data, amount, ref_id):
-    return ""
+def add_ec_site_transaction(payment_data, amount, cart, phone_number, address):
+    order_items = json.loads(cart)
+
+    order_id = uuid.uuid4()
+    ref_id = str(order_id)[:8]
+    new_order = Order.objects.create(
+        public_id=order_id,
+        ref_id=ref_id,
+        buyer_name=f"{payment_data['payer']['name']['given_name']} {payment_data['payer']['name']['surname']}",
+        buyer_email=f"{payment_data['payer']['email_address']}",
+        buyer_address=address,
+        buyer_phone_address=phone_number,
+        amount=amount,
+        is_paid=True,
+        transaction_id=payment_data['id']
+    )
+    for item in order_items:
+        item_ = Item.objects.get(pk=item['itemId'])
+        OrderItems.objects.create(
+            public_id=uuid.uuid4(),
+            order=new_order,
+            quantity=item['count'],
+            price=item['price'],
+            item=item_
+        )
+    return True
+
+def donation_transaction(amount, ref_id):
+    return True

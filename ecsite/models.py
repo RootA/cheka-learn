@@ -78,6 +78,9 @@ class Order(models.Model):
     amount = models.IntegerField(default=0)
     is_paid = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['-order_date']
+
     def __str__(self):
         return self.buyer_name
 

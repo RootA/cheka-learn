@@ -28,7 +28,7 @@ class Project(models.Model):
     description = models.TextField(blank=False)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    thumbnail = models.ImageField(upload_to='projects')
+    thumbnail = models.ImageField()
     is_active = models.BooleanField(default=True)
     added_on = models.DateTimeField(auto_now=True)
 
@@ -62,7 +62,7 @@ class Donation(models.Model):
     ref_id = models.CharField(editable=False, max_length=8, unique=True,  default=generate_uuid())
     name = models.CharField(max_length=200)
     description = models.TextField(blank=False)
-    thumbnail = models.ImageField(upload_to='projects')
+    thumbnail = models.ImageField()
     amount = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now=True)
@@ -79,7 +79,7 @@ class DonationUpdate(models.Model):
     donation = models.ForeignKey(Donation, on_delete=models.CASCADE)
     description = models.TextField(blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    thumbnail = models.ImageField(upload_to='projects', blank=True, null=True)
+    thumbnail = models.ImageField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now=True)
 

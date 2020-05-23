@@ -7,7 +7,7 @@ class Category(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.FileField(upload_to='projects', default='default.png')
+    image = models.FileField(default='default.png')
     created_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField('active', default=True,
                                     help_text='The category will be available.')
@@ -43,7 +43,7 @@ class Item(models.Model):
     description = models.TextField()
     price = models.FloatField()
     discount = models.IntegerField(default=0)  # Usually a percentage
-    image = models.FileField(upload_to='projects')
+    image = models.FileField()
     created_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField('active', default=True,
                                     help_text='The item will be available.')
@@ -60,7 +60,7 @@ class Item(models.Model):
 class Image(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='+')
-    upload = models.FileField(upload_to='projects')
+    upload = models.FileField()
     is_active = models.BooleanField('active', default=True,
                                     help_text='The image will be available.')
 
@@ -132,7 +132,7 @@ class Project(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=254)
     description = models.TextField()
-    thumbnail = models.FileField(upload_to='projects')
+    thumbnail = models.FileField()
     is_active = models.BooleanField('active', default=True,
                                     help_text='The project will still be available.')
     added_on = models.DateTimeField(auto_now=True)
@@ -185,7 +185,7 @@ class ProjectUpdate(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     description = models.TextField()
-    thumbnail = models.FileField(upload_to='projects', null=True)
+    thumbnail = models.FileField(null=True)
     is_active = models.BooleanField('active', default=True,
                                     help_text='The project update will still be available.')
     added_on = models.DateTimeField(auto_now=True)
@@ -202,7 +202,7 @@ class ProjectUpdate(models.Model):
 class ProjectImage(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    image = models.FileField(upload_to='projects', null=True)
+    image = models.FileField(null=True)
 
     class Meta:
         ordering = ['project_id']

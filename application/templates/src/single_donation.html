@@ -30,28 +30,45 @@
                   </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                <div class="card text-white bg-success mb-4" style="max-width: 18rem;">
                       <div class="card-header">Money Raised</div>
                       <div class="card-body">
                         <h1 class="">$ {{ donation.amount }}</h1>
                       </div>
-                    </div>
-                  <h2 style="margin-bottom: 10px; margin-top: 40px; font-weight: bold">Donate</h2>
-                {% if incentives %}
-                    {% for incentive in incentives %}
-                        <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
-                              <div class="card-body">
-                                <h5 class="">$ {{ incentive.amount }} {{ incentive.title }}</h5>
-                                <p class="card-text">{{ incentive.description }}</p>
-                              </div>
-                              <div class="card-footer">
-                                  <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" data-target="#donation-checkout" style="float: right" onclick="donate({{ incentive.amount }})">Donate</a>
-                              </div>
-                            </div>
-                    {% endfor %}
-                {% endif %}
-              </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                    <h2 style="font-weight: bold" class="card-title">Donate</h2>
+                    <form method="post" action="{% url 'donation-payment' donation.pk %}" class="form-group">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="DfirstName" class="control-label">First Name</label>
+                            <input type="text" placeholder="名" name="first_name" class="form-control" value="" id="DfirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="DlastName" class="control-label">Last Name</label>
+                            <input type="text" placeholder="苗字" name="last_name" class="form-control"  value="" id="DlastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="DEmail" class="control-label">Email</label>
+                            <input type="email" placeholder="メールアド" name="email" class="form-control" value="" id="DEmail" required>
+                        </div>
+                         <div class="form-group" style="margin-top: 10px">
+                            <label for="amount" class="control-label">Amount</label>
+                             <select name="amount" id="amount" class="form-control">
+                                 {% for incentive in incentives %}
+                                     <option value="{{ incentive.pk }}">${{ incentive.amount }}</option>
+                                {% endfor %}
+                             </select>
+                        </div>
+                        <div class="form-group" style="margin-top: 10px">
+                            <button type="submit" class="btn btn-primary btn-block" style="float: right">Donate</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+          </div>
           <div class="row" style="margin-top: 20px">
               <div class="col-md-8">
                   <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">

@@ -153,38 +153,31 @@ def singleDonation(request, donation_id):
 
 
 def donationPayment(request, donation_id):
-    donation_id = request.POST.get('donation_id')
     amount = request.POST.get('amount')
     firstName = request.POST.get('first_name')
     lastName = request.POST.get('last_name')
     Email = request.POST.get('email')
     donation = Donation.objects.get(id=donation_id)
-    DonationTransaction.objects.create(
+    incentive = DonationIncentives.objects.get(pk=amount)
+    transaction = DonationTransaction.objects.create(
         donation=donation,
         full_name=f'{firstName} {lastName}',
-        amount=amount
+        amount=incentive.amount
     )
 
     request_data = {
-        'Amount': str(int(amount)),
+        'Amount': str(int(incentive.amount)),
         'Currency': 'USD',
         'Description': donation.name,
         'Type': 'MERCHANT',
-        'Reference': donation.ref_id,
+        'Reference': transaction.pk,
         'FirstName': firstName,
         'LastName': lastName,
         'Email': Email,
+        'type': 3
     }
-    post_params = {
-        'oauth_callback': f'http://localhost:8000/donation/payment/callback'
-    }
-    # build url to redirect user to confirm payment
-    url = postDirectOrder(post_params, request_data)
-    context = {
-        'url': url,
-        'title': 'Checkout'
-    }
-    return render(request, 'src/checkout.html', context)
+
+    return render(request, 'src/checkout.html', request_data)
 
 def donationPaymentCallback(request):
     ref_id = request.get('pesapal_merchant_reference')
@@ -343,7 +336,7 @@ def paypal_checkout_success(request):
         elif int(payment_reference) == 2:
             add_ec_site_transaction(payment_data, amount, cart, PhoneNumber, Address)
         else:
-            donation_transaction(amount, ref_id)
+            donation_transaction(payment_data, amount, ref_id)
         return JsonResponse({'message': 'Thank you'})
 
 def add_online_learning_transaction(payment_data, amount, ref_id):
@@ -351,7 +344,7 @@ def add_online_learning_transaction(payment_data, amount, ref_id):
     if booking:
         booking.is_paid = True
         booking.save()
-        
+
         Transaction.objects.create(
             transaction_id=payment_data['id'],
             project=booking.project,
@@ -392,5 +385,15 @@ def add_ec_site_transaction(payment_data, amount, cart, phone_number, address):
         )
     return True
 
-def donation_transaction(amount, ref_id):
+def donation_transaction(payment_data, amount, ref_id):
+    transaction = DonationTransaction.objects.get(pk=ref_id)
+    if transaction:
+        transaction.transaction_id = payment_data['id']
+        transaction.is_successful = True
+        transaction.save()
+        
+        donation = Donation.objects.get(pk=transaction.donation.pk)
+        donation.amount += int(amount)
+        donation.save()
+
     return True

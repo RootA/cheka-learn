@@ -1,12 +1,15 @@
 from datetime import datetime
+from decimal import Decimal
 
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, FormView, CreateView
-from django.views.generic.base import View
+from django.views.generic import ListView, FormView
+
+from .models import *
+from collections import Counter
 
 from ecsite.models import Order, Item, OrderItems
 from .utility_functions import *
@@ -51,7 +54,20 @@ def projects(request):
 def project_detail(request, project_id):
     categories = fetch_categories()
     project = fetch_single_project(project_id)
-    # token = generate_token()
+    schedules = [schedule for schedule in ProjectSchedule.objects.filter(project=project).all()]
+    okayDays = []
+    okayDaysInt = None
+    acceptedDays = []
+    for day in ProjectDays.objects.filter(project__exact=project).all():
+        acceptedDays.append(day.get_id())
+        okayDays.append(day)
+        if okayDaysInt is None:
+            okayDaysInt = f'{day.get_id()}'
+        else:
+            okayDaysInt = f'{okayDaysInt}, {day.get_id()}'
+    days = [0, 1, 2, 3, 4, 5, 6, 7]
+    main_list = list(set(days) - set(acceptedDays))
+    disableddays = listToString(main_list)
     context = {
         'categories': categories,
         'project': project,
@@ -62,42 +78,49 @@ def project_detail(request, project_id):
         'thumbnail1': '/img/ChekaTV.jpg',
         'thumbnail2': '/img/CHEKAIZAKAYALOGO.jpg',
         'title': project.name,
+        'schedules': schedules,
+        'okayDays': okayDays,
+        'okayDaysInt': okayDaysInt,
+        'disAbledDays': disableddays
     }
 
-    # token = generate_token()
-    # context = {
-    #     'categories': categories,
-    #     'projects': project
-    #     'project': project,
-    #     'key_text': project.name,
-    #     'summary': f'${project.price}',
-    #     'checkout_amount': int(project.price * 100),
-    #     'thumbnail': project.thumbnail,
-    #     'payment_token': token,
-    #     'show-checkout': True if token else False
-    # }
     return render(request, 'src/detail.html', context)
 
 
+
+# Function to convert
+def listToString(s):
+    # initialize an empty string
+    str1 = None
+
+    for element in s:
+        if str1:
+            str1 = f'{str1},{element}'
+        else:
+            str1 = f'{element}'
+
+    # return string
+    return str1
+
 def project_checkout(request, project_id):
     project = fetch_single_project(project_id)
-    request_data = {
+    schedule = ProjectSchedule.objects.get(pk=request.POST.get('session'))
+    booking = ProjectBookings.objects.create(
+        project=project,
+        date=request.POST.get('date'),
+        full_name=f'{request.POST.get("first_name")} {request.POST.get("last_name")}',
+        email=request.POST.get('email'),
+        schedule=schedule
+    )
+    context = {
+        'url': 'http://localhost:8000/project/payment',
         'Amount': str(int(project.price)),
         'Currency': 'USD',
-        'Description': project.name,
-        'Type': 'MERCHANT',
-        'Reference': project.ref_id,
-        'FirstName': request.POST.get('first_name'),
-        'LastName': request.POST.get('last_name'),
-        'Email': request.POST.get('email'),
-    }
-    post_params = {
-        'oauth_callback': f'http://localhost:8000/project/payment'
-    }
-    # build url to redirect user to confirm payment
-    url = postDirectOrder(post_params, request_data)
-    context = {
-        'url': url,
+        'summary': f'${project.price}',
+        'key_text': project.name,
+        'project': project,
+        'Reference': booking.pk,
+        'type': 1,
         'title': 'Checkout'
     }
     return render(request, 'src/checkout.html', context)
@@ -324,13 +347,17 @@ def paypal_checkout_success(request):
         return JsonResponse({'message': 'Thank you'})
 
 def add_online_learning_transaction(payment_data, amount, ref_id):
-    project = Project.objects.filter(pk=ref_id).first()
-    if project:
+    booking = ProjectBookings.objects.filter(pk=ref_id).first()
+    if booking:
+        booking.is_paid = True
+        booking.save()
+        
         Transaction.objects.create(
             transaction_id=payment_data['id'],
-            project=project,
+            project=booking.project,
+            booking=booking,
             transaction_date=datetime.now(),
-            amount=amount,
+            amount=Decimal(amount),
             full_name=f"{payment_data['payer']['name']['given_name']} {payment_data['payer']['name']['surname']}",
             extra_data="PayPal Payment",
             payment_mode="PayPal",

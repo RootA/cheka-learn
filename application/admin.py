@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Category, Project, Transaction, Donation, DonationUpdate, DonationTransaction, DonationComment, \
-                    DonationIncentives
+                    DonationIncentives, Schedule, ProjectSchedule, ProjectDays, ProjectBookings
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -11,6 +11,27 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ['category', 'ref_id', 'name', 'description', 'price', 'thumbnail', 'added_on', 'user']
     list_filter = ['category', 'user']
     # change_form_template = 'src/admin/project-create.html'
+
+@admin.register(Schedule)
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display = ['name', 'time_start', 'duration', 'is_active']
+    list_filter = ['is_active']
+
+@admin.register(ProjectSchedule)
+class ProjectScheduleAdmin(admin.ModelAdmin):
+    list_display = ['project', 'schedule', 'is_active']
+    list_filter = ['project', 'schedule']
+
+@admin.register(ProjectDays)
+class ProjectScheduleAdmin(admin.ModelAdmin):
+    list_display = ['project', 'day']
+    list_filter = ['project', 'day']
+
+
+@admin.register(ProjectBookings)
+class ProjectBookingsAdmin(admin.ModelAdmin):
+    list_display = ['project', 'full_name', 'date', 'schedule', 'email', 'added_on', 'is_paid']
+    list_filter = ['project', 'date']
 
 @admin.register(Transaction)
 class TransactionsAdmin(admin.ModelAdmin):

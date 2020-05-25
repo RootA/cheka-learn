@@ -36,15 +36,14 @@
                     <div class="col-lg-8" style="margin-top: 10px">
                         <input type="text" placeholder="届くアドレス" name="address" class="form-control" value="" id="Address" required>
                     </div>
-{#                    <div class="offset-10 col-lg-12" style="margin-top: 10px">#}
-{#                        <button type="submit" class="place-order btn btn-primary pull-right">お支払い</button>#}
-{#                    </div>#}
+                    <div class="offset-10 col-lg-12" style="margin-top: 10px">
+                        <button type="submit" class="place-order btn btn-primary pull-right">お支払い</button>
+                    </div>
                 </div>
             </form>
             <br>
         </div>
           <div class="offset-3 col-md-6 pull-right">
-              <div id="paypal-button-container"></div>
           </div>
       </div>
       <div class="modal-footer">
@@ -54,64 +53,63 @@
     </div>
   </div>
 </div>
-  <script src="https://www.paypal.com/sdk/js?client-id=AV9Lx4zauCN_SmGw4e7lAByaf6LCDIZO0-201Y45Nit4Xdx6sKMRaiwd7hmDHy1TNFAOl9kZ5KuxcBx-"></script>
- <script src="{% static 'js/cart.js' %}"></script>
- <script>
- function completeTransaction(response) {
-   let url = "{% url 'paypal-success' %}"
-    let PhoneNumber = document.getElementById('PhoneNumber').value
-    let Address = document.getElementById('Address').value
-      let data = {
-          response: JSON.stringify(response),
-          amount: shoppingCart.totalCart(),
-          type: 2,
-          phone: PhoneNumber,
-          address: Address,
-          cart: JSON.stringify(shoppingCart.listCart())
-      }
-    $.ajax({
-      url: url,
-      type: 'post',
-      data: data,
-      dataType: 'json',
-      success: function (data) {
-        if (data) {
-          alert(data.message);
-          shoppingCart.clearCart();
-          location.reload();
-        }
-      },
-      error: function (error) {
-          if (error) {
-              console.log(error.message)
-          }
-      }
-  });
-}
-
-// Render Paypal buttons
- paypal.Buttons({
-     style: {
-         size: 'small',
-         layout:  'vertical',
-         shape: 'pill'
-     },
-    createOrder: function(data, actions) {
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: shoppingCart.totalCart()
-          }
-        }]
-      });
-    },
-     onApprove: function(data, actions) {
-          // This function captures the funds from the transaction.
-          return actions.order.capture().then(function(details) {
-              console.log(details)
-            // This function shows a transaction success message to your buyer.
-            completeTransaction(details)
-          });
-    }
-  }).render('#paypal-button-container');
- </script>
+{#  <script src="https://www.paypal.com/sdk/js?client-id=AV9Lx4zauCN_SmGw4e7lAByaf6LCDIZO0-201Y45Nit4Xdx6sKMRaiwd7hmDHy1TNFAOl9kZ5KuxcBx-"></script>#}
+{# <script src="{% static 'js/cart.js' %}"></script>#}
+{# <script>#}
+{# function completeTransaction(response) {#}
+{#   let url = "{% url 'paypal-success' %}"#}
+{#    let PhoneNumber = document.getElementById('PhoneNumber').value#}
+{#    let Address = document.getElementById('Address').value#}
+{#      let data = {#}
+{#          response: JSON.stringify(response),#}
+{#          amount: shoppingCart.totalCart(),#}
+{#          type: 2,#}
+{#          phone: PhoneNumber,#}
+{#          address: Address,#}
+{#          cart: JSON.stringify(shoppingCart.listCart())#}
+{#      }#}
+{#    $.ajax({#}
+{#      url: url,#}
+{#      type: 'post',#}
+{#      data: data,#}
+{#      dataType: 'json',#}
+{#      success: function (data) {#}
+{#        if (data) {#}
+{#          alert(data.message);#}
+{#          shoppingCart.clearCart();#}
+{#          location.reload();#}
+{#        }#}
+{#      },#}
+{#      error: function (error) {#}
+{#          if (error) {#}
+{#              console.log(error.message)#}
+{#          }#}
+{#      }#}
+{#  });#}
+{#}#}
+{##}
+{#// Render Paypal buttons#}
+{# paypal.Buttons({#}
+{#     style: {#}
+{#         size: 'small',#}
+{#         layout:  'vertical',#}
+{#         shape: 'pill'#}
+{#     },#}
+{#    createOrder: function(data, actions) {#}
+{#      return actions.order.create({#}
+{#        purchase_units: [{#}
+{#          amount: {#}
+{#            value: shoppingCart.totalCart()#}
+{#          }#}
+{#        }]#}
+{#      });#}
+{#    },#}
+{#     onApprove: function(data, actions) {#}
+{#          // This function captures the funds from the transaction.#}
+{#          return actions.order.capture().then(function(details) {#}
+{#            // This function shows a transaction success message to your buyer.#}
+{#            completeTransaction(details)#}
+{#          });#}
+{#    }#}
+{#  }).render('#paypal-button-container');#}
+{# </script>#}

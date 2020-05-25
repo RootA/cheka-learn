@@ -14,35 +14,35 @@
           <h3>チェックアウト</h3>
           <br>
         <div class="col-md-12">
-            {% if donation %}
-                <form method="post" action="{% url 'donation-payment' donation.pk %}">
-            {% else %}
-                <form method="post">
-            {% endif %}
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-lg-4">
-                        <input type="text" placeholder="名" name="first_name" class="form-control" value="" id="firstName" required>
-                    </div>
-                    <div class="col-lg-4">
-                        <input type="text" placeholder="苗字" name="last_name" class="form-control"  value="" id="lastName" required>
-                    </div>
-                    <div class="col-lg-4">
-                        <input type="email" placeholder="メールアド" name="email" class="form-control" value="" id="Email" required>
-                    </div>
-                </div>
-                <div class="row">
-                     <div class="col-lg-4" style="margin-top: 10px">
-                        <input type="number" placeholder="Amount" name="amount" class="form-control" value id="amount">
-                    </div>
-                    <div class="col-lg-4">
-                        <input type="text" placeholder="" name="donation_id" class="form-control" value="{{ donation.pk }}" id="firstName" hidden aria-hidden="true">
-                    </div>
-                    <div class="col-lg-4" style="margin-top: 10px">
-                        <button type="submit" class="btn btn-primary pull-right" style="float: right">Donate</button>
-                    </div>
-                </div>
-            </form>
+{#            {% if donation %}#}
+{#                <form method="post" action="{% url 'donation-payment' donation.pk %}">#}
+{#            {% else %}#}
+{#                <form method="post">#}
+{#            {% endif %}#}
+{#                {% csrf_token %}#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-4">#}
+{#                        <input type="text" placeholder="名" name="first_name" class="form-control" value="" id="firstName" required>#}
+{#                    </div>#}
+{#                    <div class="col-lg-4">#}
+{#                        <input type="text" placeholder="苗字" name="last_name" class="form-control"  value="" id="lastName" required>#}
+{#                    </div>#}
+{#                    <div class="col-lg-4">#}
+{#                        <input type="email" placeholder="メールアド" name="email" class="form-control" value="" id="Email" required>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                     <div class="col-lg-4" style="margin-top: 10px">#}
+{#                        <input type="number" placeholder="Amount" name="amount" class="form-control" value id="amount">#}
+{#                    </div>#}
+{#                    <div class="col-lg-4">#}
+{#                        <input type="text" placeholder="" name="donation_id" class="form-control" value="{{ donation.pk }}" id="firstName" hidden aria-hidden="true">#}
+{#                    </div>#}
+{#                    <div class="col-lg-4" style="margin-top: 10px">#}
+{#                        <button type="submit" class="btn btn-primary pull-right" style="float: right">Donate</button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
         </div>
       </div>
       <div class="modal-footer">

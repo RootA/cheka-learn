@@ -26,8 +26,10 @@
       <link href="{% static '/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
       <link href="{% static '/vendor/aos/aos.cs' %}s" rel="stylesheet">
 
+
       <!-- Template Main CSS File -->
       <link href="{% static '/css/style.css' %}" rel="stylesheet">
+      <link href="{% static '/css/bootstrap-datepicker3.css' %}" rel="stylesheet">
     </head>
     <body>
     {% include 'src/partials/header.html' %}
@@ -56,6 +58,8 @@
       <script src="{% static '/js/main.js' %}"></script>
       <script src="{% static '/js/cart.js' %}"></script>
       <script src="{% static '/js/donation.js' %}"></script>
+      <script src="{% static '/js/bootstrap-datepicker.js' %}"></script>
+      <script src="{% static '/js/bootstrap-datepicker.min.js' %}"></script>
 
     {% block scripts %}
     {% endblock scripts %}

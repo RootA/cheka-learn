@@ -789,7 +789,7 @@ section {
 }
 
 .about .video-box {
-  background: url("../img/about.png") center center no-repeat;
+  /*background: url("../img/about.png") center center no-repeat;*/
   background-size: contain;
   min-height: 300px;
 }
@@ -1023,7 +1023,7 @@ section {
 --------------------------------------------------------------*/
 .testimonials {
   padding: 80px 0;
-  background: url("../img/cta-bg.jpg") no-repeat;
+  /*background: url("../img/cta-bg.jpg") no-repeat;*/
   background-position: center center;
   background-size: cover;
   position: relative;
@@ -8541,7 +8541,6 @@ aside .widget_nav_menu .sub-menu, aside .widget_pages .children {
     width: 13px;
     height: 13px;
     line-height: 13px;
-    background-image: url('img/close_side_menu.png');
     background-repeat: no-repeat;
     z-index: 1000;
     -webkit-transition: all .5s ease;
@@ -9732,7 +9731,7 @@ body div.pp_default .pp_close:after {
     background: transparent;
 }
 .no-svg .mejs-controls .mejs-button button {
-    background-image: url(img/audio/controls.png);
+    /*background-image: url(img/audio/controls.png);*/
 }
 .mejs-controls .mejs-button button:focus {
     outline: 0;
@@ -12132,7 +12131,7 @@ footer #lang_sel_list.lang_sel_list_horizontal a, footer #lang_sel_list.lang_sel
     z-index: 11;
 }
 .carousel .video .video-overlay.active {
-    background-image: url("img/pixel-video.png");
+    /*background-image: url("img/pixel-video.png");*/
     background-position: 0 0;
     background-repeat: repeat;
     opacity: 1;
@@ -12354,7 +12353,7 @@ html[xmlns] .slides, html[xmlns] .portfolio_slides {
     -moz-border-radius: 0;
     -ms-border-radius: 0;
     border-radius: 0;
-    background-image: url('img/frame_arrow_right.png');
+    /*background-image: url('img/frame_arrow_right.png');*/
     background-repeat: no-repeat;
     background-position: center center;
     width: 25px;
@@ -12363,7 +12362,7 @@ html[xmlns] .slides, html[xmlns] .portfolio_slides {
 }
 .have_frame.flexslider .flex-next:hover {
     background-color: transparent!important;
-    background-image: url('img/frame_arrow_right_hover.png');
+    /*background-image: url('img/frame_arrow_right_hover.png');*/
 }
 .flexslider .flex-prev, .portfolio_slider .flex-prev, .portfolio_slider .caroufredsel-prev {
     left: 15px;
@@ -12378,7 +12377,7 @@ html[xmlns] .slides, html[xmlns] .portfolio_slides {
     -moz-border-radius: 0;
     -ms-border-radius: 0;
     border-radius: 0;
-    background-image: url('img/frame_arrow_left.png');
+    /*background-image: url('img/frame_arrow_left.png');*/
     background-repeat: no-repeat;
     background-position: center center;
     width: 25px;
@@ -12387,49 +12386,49 @@ html[xmlns] .slides, html[xmlns] .portfolio_slides {
 }
 .have_frame.flexslider .flex-prev:hover {
     background-color: transparent!important;
-    background-image: url('img/frame_arrow_left_hover.png');
+    /*background-image: url('img/frame_arrow_left_hover.png');*/
 }
 @media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min--moz-device-pixel-ratio:1.5), only screen and (-o-min-device-pixel-ratio:150/100), only screen and (min-device-pixel-ratio:1.5), only screen and (min-resolution:160dpi) {
     .have_frame.flexslider .flex-prev {
-    background-image: url('img/frame_arrow_left@1_5x.png');
+    /*background-image: url('img/frame_arrow_left@1_5x.png');*/
     -o-background-size: 25px 67px;
     -webkit-background-size: 25px 67px;
     -moz-background-size: 25px 67px;
     background-size: 25px 67px;
 }
 .have_frame.flexslider .flex-prev:hover {
-    background-image: url('img/frame_arrow_left_hover@1_5x.png');
+    /*background-image: url('img/frame_arrow_left_hover@1_5x.png');*/
 }
 .have_frame.flexslider .flex-next {
-    background-image: url('img/frame_arrow_right@1_5x.png');
+    /*background-image: url('img/frame_arrow_right@1_5x.png');*/
     -o-background-size: 25px 67px;
     -webkit-background-size: 25px 67px;
     -moz-background-size: 25px 67px;
     background-size: 25px 67px;
 }
 .have_frame.flexslider .flex-next:hover {
-    background-image: url('img/frame_arrow_right_hover@1_5x.png');
+    /*background-image: url('img/frame_arrow_right_hover@1_5x.png');*/
 }
 }@media only screen and (-webkit-min-device-pixel-ratio:2.0), only screen and (min--moz-device-pixel-ratio:2.0), only screen and (-o-min-device-pixel-ratio:200/100), only screen and (min-device-pixel-ratio:2.0), only screen and (min-resolution:210dpi) {
     .have_frame.flexslider .flex-prev {
-    background-image: url('img/frame_arrow_left@2x.png');
+    /*background-image: url('img/frame_arrow_left@2x.png');*/
     -o-background-size: 25px 67px;
     -webkit-background-size: 25px 67px;
     -moz-background-size: 25px 67px;
     background-size: 25px 67px;
 }
 .have_frame.flexslider .flex-prev:hover {
-    background-image: url('img/frame_arrow_left_hover@2x.png');
+    /*background-image: url('img/frame_arrow_left_hover@2x.png');*/
 }
 .have_frame.flexslider .flex-next {
-    background-image: url('img/frame_arrow_right@2x.png');
+    /*background-image: url('img/frame_arrow_right@2x.png');*/
     -o-background-size: 25px 67px;
     -webkit-background-size: 25px 67px;
     -moz-background-size: 25px 67px;
     background-size: 25px 67px;
 }
 .have_frame.flexslider .flex-next:hover {
-    background-image: url('img/frame_arrow_right_hover@2x.png');
+    /*background-image: url('img/frame_arrow_right_hover@2x.png');*/
 }
 }.flex-direction-nav .flex-disabled {
     cursor: default;
@@ -13174,7 +13173,7 @@ nav.content_menu ul li {
     -webkit-backface-visibility: hidden;
 }
 nav.content_menu ul li .arrow {
-    background-image: url("img/content_menu_arrow.png");
+    /*background-image: url("img/content_menu_arrow.png");*/
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;

@@ -31,11 +31,11 @@
       <link href="{% static '/css/style.css' %}" rel="stylesheet">
       <link href="{% static '/css/bootstrap-datepicker3.css' %}" rel="stylesheet">
     </head>
-    <body>
+    <body style="background-color: white">
     {% include 'src/partials/header.html' %}
     {% block hero %}
     {% endblock %}
-    <main id="main">
+    <main id="main" style="background-color: white">
         {% block content %}
         {% endblock content %}
         {% include 'src/ecom/cart_modal.html' %}

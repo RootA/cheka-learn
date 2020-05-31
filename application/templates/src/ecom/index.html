@@ -4,19 +4,15 @@
     {{ title }}
 {% endblock title %}
 {% block hero %}
-    {% include 'src/partials/hero.html' %}
+    {% include 'src/partials/ec-hero.html' %}
 {% endblock %}
 {% block content %}
-        <!-- ======= Features Section ======= -->
-      <div class="container">
-
-        <div class="section-title" data-aos="fade-up">
+    <!-- End Features Section -->
+    <section id="counts" class="counts" style="background-color: #ffffff;  margin-top: 80px">
+        <div class="section-title container" data-aos="fade-up">
           <h2>EC サイト</h2>
           <p>Categories</p>
         </div>
-      </div>
-    <!-- End Features Section -->
-    <section id="counts" class="counts" style="background-color: #ffffff">
       <div class="container">
         <div class="row aos-init aos-animate" data-aos="fade-left">
             {% if categories %}
@@ -31,7 +27,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a class="btn btn-primary btn-sm" href="{% url 'category_products' category.pk %}">More</a>
+                                <a class="btn btn-primary btn-sm" style="float: right" href="{% url 'category_products' category.pk %}">More</a>
                             </div>
                         </div>
                     </div>

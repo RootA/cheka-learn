@@ -2379,6 +2379,7 @@ header {
     position: relative;
     z-index: 110;
     -webkit-backface-visibility: hidden;
+    background-color: #ffdf00;
 }
 header .header_inner_left {
     position: absolute;
@@ -2772,6 +2773,19 @@ header.fixed_hiding.scrolled .q_logo_hidden a {
     -ms-transition: opacity .15s ease .3s, max-height .15s ease .2s;
     transition: opacity .15s ease .3s, max-height .15s ease .2s;
 }
+
+.carousel{
+    background: #2f4357;
+    margin-top: 20px;
+}
+.carousel-item{
+    text-align: center;
+    min-height: 280px; /* Prevent carousel from being distorted if for some reason image doesn't load */
+}
+.bs-example{
+	margin: 20px;
+}
+
 }nav.main_menu {
     position: absolute;
     left: 50%;

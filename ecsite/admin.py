@@ -8,7 +8,7 @@ admin.site.site_header = "CHEKATV DASHBOARD"
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'image')
+    list_display = ('name', 'description', 'image', 'is_active')
 
 
 class ItemsAdmin(admin.ModelAdmin):

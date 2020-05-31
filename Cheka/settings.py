@@ -50,7 +50,7 @@ EMAIL_USE_TLS = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.str('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'chekaapp.herokuapp.com', 'ec.cheka.tv', 'cheka.tv']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'chekaapp.herokuapp.com', 'ec.cheka.tv', 'cheka.tv', 'www.cheka.tv']
 APP_NAME = 'Cheka Tv Edu'
 DEFAULT_EMAIL = 'edu@chekagroup.co.jp'
 
@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'application',
     'ecsite',
     'django_wysiwyg',
+    'analytical'
 ]
 DJANGO_WYSIWYG_FLAVOR = "ckeditor"
 
@@ -170,6 +171,8 @@ JENGA_PASSWORD = env.str('JENGA_PASSWORD')
 PESAPAL_CONSUMER_KEY = env.str('PESAPAL_CONSUMER_KEY')
 PESAPAL_SECRET_KEY = env.str('PESAPAL_SECRET_KEY')
 TESTING = env.str('TESTING')
+
+GOOGLE_ANALYTICS_ID = env.str('GOOGLE_ANALYTICS_ID')
 
 X_FRAME_OPTIONS = 'ALLOW-FROM https://demo.pesapal.com'
 

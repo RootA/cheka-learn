@@ -1,6 +1,9 @@
 {% load static %}
+{% load analytical %}
+
 <html lang="en">
     <head>
+    {% analytical_head_top %}
         <title>
             {% block title %}
               {{ key_text |default:"CHEKA TV" }}
@@ -30,8 +33,10 @@
       <!-- Template Main CSS File -->
       <link href="{% static '/css/style.css' %}" rel="stylesheet">
       <link href="{% static '/css/bootstrap-datepicker3.css' %}" rel="stylesheet">
+    {% analytical_head_bottom %}
     </head>
     <body style="background-color: white">
+    {% analytical_body_top %}
     {% include 'src/partials/header.html' %}
     {% block hero %}
     {% endblock %}
@@ -63,5 +68,6 @@
 
     {% block scripts %}
     {% endblock scripts %}
+    {% analytical_body_bottom %}
     </body>
 </html>

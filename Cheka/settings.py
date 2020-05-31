@@ -50,7 +50,7 @@ EMAIL_USE_TLS = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.str('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'chekaapp.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'chekaapp.herokuapp.com', 'ec.cheka.tv', 'cheka.tv']
 APP_NAME = 'Cheka Tv Edu'
 DEFAULT_EMAIL = 'edu@chekagroup.co.jp'
 

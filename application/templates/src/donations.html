@@ -36,6 +36,9 @@
                                 </div>
                             </div>
                         {% endfor %}
+                        {% else %}
+                        <h5 class="text-center"> No data found</h5>
+                        <img src="{% static 'nodata.gif' %}" alt="">
                     {% endif %}
                 </div>
               </div>

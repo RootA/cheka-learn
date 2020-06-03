@@ -8,7 +8,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['category', 'ref_id', 'name', 'description', 'price', 'thumbnail', 'added_on', 'user']
+    list_display = ['category', 'ref_id', 'name', 'description', 'price', 'is_active','thumbnail', 'added_on', 'user']
     list_filter = ['category', 'user']
     # change_form_template = 'src/admin/project-create.html'
 

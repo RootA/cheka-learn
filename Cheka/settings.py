@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'application',
     'ecsite',
     'django_wysiwyg',
-    'analytical'
+    'analytical',
+    'storages'
 ]
 DJANGO_WYSIWYG_FLAVOR = "ckeditor"
 
@@ -152,17 +153,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = 'uploads/'
+MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 #  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
-MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+# MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
 
 JENGA_API_KEY = env.str('JENGA_API_KEY')
 JENGA_USERNAME = env.str('JENGA_USERNAME')
@@ -175,6 +178,16 @@ TESTING = env.str('TESTING')
 GOOGLE_ANALYTICS_ID = env.str('GOOGLE_ANALYTICS_ID')
 
 X_FRAME_OPTIONS = 'ALLOW-FROM https://demo.pesapal.com'
+
+
+# The AWS access key to use.
+AWS_S3_REGION_NAME='eu-west-2'
+AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = "chekatv"
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
 
 import dj_database_url
 prod_db  =  dj_database_url.config(conn_max_age=500)

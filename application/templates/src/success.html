@@ -1,7 +1,7 @@
 {% extends 'src/base.html' %}
 {% load static %}
 {% block title %}
-    {{ title }}
+    {{ 'Success' }}
 {% endblock title %}
 {% block hero %}
     {% include 'src/partials/hero.html' %}
@@ -13,27 +13,17 @@
 
         <div class="section-title" data-aos="fade-up">
           <h2>お支払いのお知らせ</h2>
-          <p></p>
         </div>
       </div>
     </section><!-- End Features Section -->
     <section id="details" class="details">
       <div class="container">
-        <div class="row content">
-          <div class="col-md-4 aos-init aos-animate" data-aos="fade-right">
-            <img src="/{{ project.thumbnail.url }}" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-8 pt-4 aos-init aos-animate" data-aos="fade-up">
-            <p class="font-italic">
-              {{ project.description }} {{ project.checkout_amount  }}
-            </p>
-          </div>
-            <a href=""></a>
+        <div class="row content" style="background-color: white">
+            <h3 class="text-center" style="text-align: center; margin-left: 20%">支払い取引を受け取りました。サッポトありがとうございました。</h3>
         </div>
-      <hr>
           <div class="row">
-            <div class="col-md-6 text-center">
-                <img src="{% static 'img/' %}" alt="">
+            <div class="col-md-12 text-center">
+                <img style="margin-left: auto; margin-right: auto; display: block" src="{% static 'img/thank-you.jpg' %}" alt="">
             </div>
           </div>
       </div>

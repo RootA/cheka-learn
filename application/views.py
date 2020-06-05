@@ -397,3 +397,6 @@ def donation_transaction(payment_data, amount, ref_id):
         donation.save()
 
     return True
+
+def success(request):
+    return render(request, 'src/success.html')

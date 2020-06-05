@@ -72,12 +72,12 @@
           <div class="col-md-8 pt-4 aos-init aos-animate" data-aos="fade-up">
             {% if schedules %}
                   {% for schedule in schedules %}
-                    <span class="btn btn-sm btn-warning" style="margin-right: 10px">{{ schedule.schedule.time_start }}</span>
+                    <span class="btn btn-sm btn-warning" style="margin-right: 10px; margin-top: 10px">{{ schedule.schedule.time_start }}</span>
                   {% endfor %}
             {% endif %}
            {% if okayDays %}
                   {% for schedule in okayDays %}
-                    <span class="btn btn-sm btn-success" style="margin-right: 5px">{{ schedule }}</span>
+                    <span class="btn btn-sm btn-success" style="margin-right: 5px; margin-top: 10px">{{ schedule }}</span>
                   {% endfor %}
             {% endif %}
               <hr>

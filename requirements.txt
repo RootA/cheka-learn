@@ -20,7 +20,7 @@ defusedxml==0.6.0
 distlib==0.3.0
 Django==3.0.4
 django-admin-rangefilter==0.5.4
-django-celery-results==1.2.1
+django-celery-results==2.4.0
 django-currencies==0.10.1
 django-environ==0.4.5
 django-filter==2.2.0
